@@ -1,0 +1,390 @@
+console.log("✅ NEW dashboard.js loaded");
+
+const API_URL = "http://localhost:5000";
+const statIcons = [
+"fa-list-check",
+"fa-circle-check",
+"fa-award",
+"fa-chart-line"
+];
+
+const welcomeUser =
+document.getElementById(
+"welcomeUser"
+);
+
+const statsContainer =
+document.getElementById(
+"statsContainer"
+);
+
+const recentLearningContainer =
+document.getElementById(
+"recentLearningContainer"
+);
+
+const continueLearningBtn =
+document.getElementById(
+"continueLearningBtn"
+);
+
+const logoutBtn =
+document.getElementById(
+"logoutBtn"
+);
+
+// localStorage stores the JWT received during login so protected pages can reuse it.
+const token =
+localStorage.getItem(
+"token"
+);
+
+if(!token) {
+window.location.href =
+"login.html";
+}
+
+function clearSessionAndRedirect() {
+// Logout removes authentication data from localStorage and sends the user back to login.
+localStorage.removeItem(
+"token"
+);
+localStorage.removeItem(
+"user"
+);
+window.location.href =
+"login.html";
+}
+
+logoutBtn.addEventListener(
+"click",
+clearSessionAndRedirect
+);
+
+function renderStats(stats) {
+statsContainer.innerHTML =
+"";
+
+const statItems =
+[
+{
+title:"Playlists Completed",
+value:stats.playlistsCompleted || 0
+},
+{
+title:"Skills Verified",
+value:stats.skillsVerified || 0
+},
+{
+title:"Certificates Earned",
+value:stats.certificatesEarned || 0
+},
+{
+title:"Average Score",
+value:`${stats.averageScore || 0}%`
+}
+];
+
+statItems.forEach(
+(item,index)=>{
+const card =
+document.createElement(
+"div"
+);
+card.className =
+"stat-card";
+
+const icon =
+document.createElement(
+"i"
+);
+icon.className =
+`fa-solid ${statIcons[index]}`;
+
+const value =
+document.createElement(
+"h3"
+);
+value.textContent =
+item.value;
+
+const title =
+document.createElement(
+"p"
+);
+title.textContent =
+item.title;
+
+card.appendChild(
+icon
+);
+card.appendChild(
+value
+);
+card.appendChild(
+title
+);
+statsContainer.appendChild(
+card
+);
+}
+);
+}
+
+function buildPlaylistHref(item) {
+const playlistId =
+item.playlistId || item._id;
+
+return playlistId
+? `playlist.html?playlistId=${encodeURIComponent(playlistId)}`
+: "playlist.html";
+}
+
+function renderEmptyRecentLearning() {
+const empty =
+document.createElement(
+"div"
+);
+empty.className =
+"playlist-card";
+
+const badge =
+document.createElement(
+"span"
+);
+badge.innerHTML =
+`<i class="fa-solid fa-book-open"></i> Start learning`;
+
+const title =
+document.createElement(
+"h3"
+);
+title.textContent =
+"No learning history yet";
+
+const text =
+document.createElement(
+"p"
+);
+text.textContent =
+"Add a YouTube playlist to begin tracking your progress.";
+
+empty.appendChild(
+badge
+);
+empty.appendChild(
+title
+);
+empty.appendChild(
+text
+);
+recentLearningContainer.appendChild(
+empty
+);
+}
+
+function renderRecentLearning(recentLearning) {
+recentLearningContainer.innerHTML =
+"";
+
+if(!recentLearning.length) {
+renderEmptyRecentLearning();
+return;
+}
+
+recentLearning.forEach(
+(item)=>{
+const card =
+document.createElement(
+"div"
+);
+card.className =
+"playlist-card";
+
+if(item.thumbnail) {
+const thumbnail =
+document.createElement(
+"img"
+);
+thumbnail.src =
+item.thumbnail;
+thumbnail.alt =
+`${item.title} thumbnail`;
+thumbnail.style.width =
+"100%";
+thumbnail.style.aspectRatio =
+"16 / 9";
+thumbnail.style.objectFit =
+"cover";
+thumbnail.style.borderRadius =
+"12px";
+thumbnail.style.marginBottom =
+"16px";
+card.appendChild(
+thumbnail
+);
+}
+
+const badge =
+document.createElement(
+"span"
+);
+
+const badgeIcon =
+document.createElement(
+"i"
+);
+badgeIcon.className =
+"fa-solid fa-play";
+
+badge.appendChild(
+badgeIcon
+);
+badge.appendChild(
+document.createTextNode(
+" Playlist"
+)
+);
+
+const title =
+document.createElement(
+"h3"
+);
+title.textContent =
+item.title;
+
+const progressText =
+document.createElement(
+"p"
+);
+progressText.textContent =
+`Progress: ${item.progress}%`;
+
+const progressBar =
+document.createElement(
+"div"
+);
+progressBar.className =
+"progress-bar";
+
+const progressFill =
+document.createElement(
+"b"
+);
+progressFill.style.width =
+`${item.progress}%`;
+
+const continueLink =
+document.createElement(
+"a"
+);
+continueLink.className =
+"primary-btn";
+continueLink.href =
+buildPlaylistHref(
+item
+);
+continueLink.style.marginTop =
+"18px";
+continueLink.textContent =
+"Continue";
+
+progressBar.appendChild(
+progressFill
+);
+card.appendChild(
+badge
+);
+card.appendChild(
+title
+);
+card.appendChild(
+progressText
+);
+card.appendChild(
+progressBar
+);
+card.appendChild(
+continueLink
+);
+recentLearningContainer.appendChild(
+card
+);
+}
+);
+}
+
+function setContinueLearningTarget(continueLearning) {
+const playlistId =
+continueLearning && continueLearning.playlistId;
+
+continueLearningBtn.href =
+playlistId
+? `playlist.html?playlistId=${encodeURIComponent(playlistId)}`
+: "playlist.html";
+}
+
+function setLoadingState() {
+welcomeUser.textContent =
+"Loading your dashboard...";
+statsContainer.innerHTML =
+"";
+recentLearningContainer.innerHTML =
+"";
+}
+
+async function loadDashboard() {
+try {
+setLoadingState();
+// Authorization headers send the JWT to protected backend routes.
+// The Bearer token format tells the backend this is a token-based authenticated request.
+const response = await fetch(
+`${API_URL}/api/dashboard`,
+{
+headers:{
+Authorization:`Bearer ${token}`
+}
+}
+);
+
+const data =
+await response.json();
+
+if(!response.ok) {
+if(response.status === 401) {
+clearSessionAndRedirect();
+return;
+}
+
+throw new Error(data.message || "Dashboard request failed.");
+}
+
+localStorage.setItem(
+"user",
+JSON.stringify(
+data.user
+)
+);
+
+welcomeUser.textContent =
+`Welcome back, ${data.user.name} 👋`;
+
+renderStats(
+data.stats || {}
+);
+renderRecentLearning(
+data.recentLearning || []
+);
+setContinueLearningTarget(
+data.continueLearning
+);
+} catch (error) {
+welcomeUser.textContent =
+"We could not load your dashboard right now.";
+recentLearningContainer.innerHTML =
+"";
+renderEmptyRecentLearning();
+}
+}
+
+loadDashboard();

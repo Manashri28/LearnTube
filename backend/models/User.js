@@ -1,0 +1,110 @@
+// User model for registered LearnTube users.
+// Mongoose uses this schema to validate and store user documents in MongoDB.
+
+const mongoose = require("mongoose");
+
+const userSchema = new mongoose.Schema(
+{
+name: {
+type: String,
+required: true,
+trim: true
+},
+email: {
+type: String,
+required: true,
+unique: true,
+trim: true,
+lowercase: true
+},
+password: {
+type: String,
+required: true
+},
+learningHistory: [
+{
+itemId: String,
+type: {
+type: String,
+default: "playlist"
+},
+playlistId: String,
+videoId: String,
+title: String,
+displayTitle: String,
+thumbnail: String,
+url: String,
+duration: String,
+channel: String,
+totalVideos: Number,
+videos: [
+mongoose.Schema.Types.Mixed
+],
+progress: {
+type: Number,
+default: 0
+},
+completed: {
+type: Boolean,
+default: false
+},
+quizUnlocked: {
+type: Boolean,
+default: false
+},
+lastActiveAt: Date,
+completedAt: Date,
+createdAt: Date
+}
+],
+quizAttempts: [
+{
+playlistId: String,
+videoTitle: String,
+displayTitle: String,
+videoUrl: String,
+title: String,
+score: Number,
+total: Number,
+percentage: Number,
+passed: {
+type: Boolean,
+default: false
+},
+analysis: mongoose.Schema.Types.Mixed,
+createdAt: Date
+}
+],
+certificates: [
+{
+title: String,
+displayTitle: String,
+score: Number,
+playlistId: String,
+quizAttemptId: mongoose.Schema.Types.ObjectId,
+generatedAt: Date
+}
+],
+skills: [
+{
+playlistId: String,
+name: String,
+displayTitle: String,
+score: Number,
+verified: {
+type: Boolean,
+default: false
+},
+verifiedAt: Date
+}
+]
+},
+{
+timestamps: true
+}
+);
+
+module.exports = mongoose.model(
+"User",
+userSchema
+);

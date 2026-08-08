@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>LearnTube Playlist Details</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<link rel="stylesheet" href="playlist-details.css">
+</head>
+
+<body>
+
+<aside class="sidebar">
+    <a class="brand" href="dashboard.html">
+        <span class="brand-icon"><i class="fa-solid fa-play"></i></span>
+        LearnTube
+    </a>
+
+    <ul>
+        <li><a href="dashboard.html"><i class="fa-solid fa-house"></i>Dashboard</a></li>
+        <li><a class="active" href="playlist.html"><i class="fa-solid fa-play"></i>Playlists</a></li>
+        <li><a href="quiz.html"><i class="fa-solid fa-wand-magic-sparkles"></i>AI Quiz</a></li>
+        <li><a href="portfolio.html"><i class="fa-solid fa-award"></i>Certificates</a></li>
+        <li><a href="portfolio.html"><i class="fa-solid fa-user"></i>Profile</a></li>
+    </ul>
+</aside>
+
+<main class="main">
+    <nav class="topbar">
+        <a class="back-link" href="playlist.html">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Library
+        </a>
+
+        <a class="profile" href="portfolio.html" aria-label="Open profile">
+            <i class="fa-solid fa-user"></i>
+        </a>
+    </nav>
+
+    <section class="status-panel card-panel hidden" id="statusPanel" role="status"></section>
+
+    <section class="playlist-hero card-panel" id="playlistHero">
+        <div class="hero-thumbnail" id="playlistThumbnail">
+            <i class="fa-solid fa-play"></i>
+        </div>
+
+        <div class="hero-copy">
+            <span class="eyebrow"><i class="fa-solid fa-list-check"></i>Playlist Learning</span>
+            <h1 id="playlistTitle">Loading playlist...</h1>
+            <p id="playlistChannel">Fetching your saved learning path.</p>
+
+            <div class="playlist-stats">
+                <span><i class="fa-solid fa-video"></i><strong id="videoCount">0</strong> videos</span>
+                <span><i class="fa-solid fa-chart-line"></i><strong id="progressValue">0%</strong> complete</span>
+            </div>
+
+            <div class="hero-progress">
+                <div class="progress-row">
+                    <span>Course Progress</span>
+                    <strong id="progressText">0%</strong>
+                </div>
+                <div class="progress-box" aria-hidden="true">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <button class="btn" id="continueBtn">
+                <i class="fa-solid fa-circle-play"></i>
+                Continue Learning
+            </button>
+
+            <button class="btn hidden" id="quizBtn">
+                🎓 Take AI Quiz
+            </button>
+        </div>
+    </section>
+
+    <section class="videos-section">
+        <div class="section-heading">
+            <span class="eyebrow"><i class="fa-solid fa-graduation-cap"></i>Lessons</span>
+            <h2>Playlist Videos</h2>
+        </div>
+
+        <div class="videos-list" id="videosList" aria-live="polite"></div>
+    </section>
+</main>
+
+<script src="playlist-details.js"></script>
+</body>
+</html>

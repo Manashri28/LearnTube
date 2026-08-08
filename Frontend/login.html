@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LearnTube Authentication</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<link rel="stylesheet" href="login.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Login -->
+
+    <div class="form-box login">
+
+        <form id="loginForm">
+
+            <h1>Welcome Back</h1>
+
+            <p class="subtitle">
+                Continue your learning journey
+            </p>
+
+            <div class="input-box">
+
+                <input
+                id="loginEmail"
+                type="email"
+                placeholder="Email"
+                required>
+
+                <i class="fa-solid fa-envelope"></i>
+
+            </div>
+
+            <div class="input-box">
+
+                <input
+                id="loginPassword"
+                type="password"
+                placeholder="Password"
+                required>
+
+                <i class="fa-solid fa-lock"></i>
+
+            </div>
+
+            <button type="submit">
+                Login
+            </button>
+
+            <p class="form-message" id="loginMessage"></p>
+
+            <button
+            type="button"
+            class="google-btn">
+
+            <i class="fa-brands fa-google"></i>
+            Continue with Google
+
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- Register -->
+
+    <div class="form-box register">
+
+        <form id="registerForm">
+
+            <h1>Create Account</h1>
+
+            <p class="subtitle">
+                Start building verified skills
+            </p>
+
+            <div class="input-box">
+
+                <input
+                id="registerName"
+                type="text"
+                placeholder="Full Name"
+                required>
+
+                <i class="fa-solid fa-user"></i>
+
+            </div>
+
+            <div class="input-box">
+
+                <input
+                id="registerEmail"
+                type="email"
+                placeholder="Email"
+                required>
+
+                <i class="fa-solid fa-envelope"></i>
+
+            </div>
+
+            <div class="input-box">
+
+                <input
+                id="registerPassword"
+                type="password"
+                placeholder="Password"
+                required>
+
+                <i class="fa-solid fa-lock"></i>
+
+            </div>
+
+            <button type="submit">
+
+                Create Account
+
+            </button>
+
+            <p class="form-message" id="registerMessage"></p>
+
+        </form>
+
+    </div>
+
+
+
+    <!-- Sliding Panel -->
+
+    <div class="overlay-container">
+
+        <div class="overlay">
+
+            <div class="overlay-panel left">
+
+                <h1>LearnTube</h1>
+
+                <p class="tagline">
+                    Turn YouTube learning into verified skills.
+                </p>
+
+                <button id="loginBtn">
+
+                    Login
+
+                </button>
+
+            </div>
+
+
+            <div class="overlay-panel right">
+
+                <h1>Join LearnTube</h1>
+
+                <p class="tagline">
+                    Complete playlists, take AI assessments, and earn certificates.
+                </p>
+
+                <button id="registerBtn">
+
+                    Register
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="login.js"></script>
+
+</body>
+</html>

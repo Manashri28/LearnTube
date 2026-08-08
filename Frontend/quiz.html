@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LearnTube AI Quiz</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="quiz.css">
+</head>
+<body>
+<aside class="sidebar">
+    <a class="brand" href="dashboard.html">
+        <span class="brand-icon"><i class="fa-solid fa-play"></i></span>
+        LearnTube
+    </a>
+    <ul>
+        <li><a href="dashboard.html"><i class="fa-solid fa-house"></i>Dashboard</a></li>
+        <li><a href="playlist.html"><i class="fa-solid fa-play"></i>Playlists</a></li>
+        <li><a class="active" href="quiz.html"><i class="fa-solid fa-wand-magic-sparkles"></i>AI Quiz</a></li>
+        <li><a href="portfolio.html"><i class="fa-solid fa-award"></i>Certificates</a></li>
+        <li><a href="portfolio.html"><i class="fa-solid fa-user"></i>Profile</a></li>
+    </ul>
+</aside>
+
+<main class="main">
+    <nav class="topbar">
+        <div class="page-title">
+            <span><i class="fa-solid fa-sparkles"></i>AI video assessment</span>
+            <h1>Challenge Your Knowledge</h1>
+        </div>
+        <a class="profile" href="portfolio.html" aria-label="Open profile">
+            <i class="fa-solid fa-user"></i>
+        </a>
+    </nav>
+
+    <section id="generatorView">
+        <section class="hero glass-card">
+            <div>
+                <span class="eyebrow"><i class="fa-brands fa-youtube"></i>Learn. Test. Improve.</span>
+                <h2>Challenge Your Knowledge</h2>
+                <p>Generate AI-powered quizzes from educational YouTube videos.</p>
+            </div>
+            <div class="hero-orb"><i class="fa-solid fa-brain"></i></div>
+        </section>
+
+        <section class="generator-card glass-card">
+            <label for="videoUrl">Paste YouTube URL</label>
+            <div class="url-row">
+                <div class="input-wrap">
+                    <i class="fa-solid fa-link"></i>
+                    <input id="videoUrl" type="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="url">
+                </div>
+                <button id="generateBtn" class="primary-btn">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Generate Quiz
+                </button>
+            </div>
+            <p id="generatorMessage" class="message" role="status"></p>
+        </section>
+
+        <section id="historySection" class="history-section">
+            <div class="section-heading">
+                <div>
+                    <span>Recent activity</span>
+                    <h2>Quiz History</h2>
+                </div>
+            </div>
+            <div id="historyList" class="history-grid"></div>
+        </section>
+    </section>
+
+    <section id="welcomeView" class="hidden">
+        <section class="quiz-welcome glass-card">
+            <span class="eyebrow"><i class="fa-solid fa-circle-check"></i>Playlist completed</span>
+            <h2 id="welcomePlaylistTitle">Playlist Quiz</h2>
+            <p>You have completed this playlist. Are you ready to test your knowledge?</p>
+
+            <div class="welcome-stats">
+                <span><i class="fa-solid fa-list-ol"></i><strong id="welcomeQuestionCount">15</strong> questions</span>
+                <span><i class="fa-solid fa-award"></i><strong>75%</strong> passing score</span>
+            </div>
+
+            <p id="welcomeMessage" class="message" role="status"></p>
+
+            <div class="welcome-actions">
+                <button id="backToPlaylistBtn" class="secondary-btn">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Back to Playlist
+                </button>
+                <button id="startPlaylistQuizBtn" class="primary-btn">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Start Quiz
+                </button>
+            </div>
+        </section>
+    </section>
+
+    <section id="loadingView" class="hidden loading-view glass-card">
+        <div class="loader"><span></span><span></span><span></span></div>
+        <h2 id="loadingMessage">Analyzing Video...</h2>
+        <p>Gemini is turning this lesson into a balanced 15-question assessment.</p>
+    </section>
+
+    <section id="quizView" class="hidden">
+        <section class="quiz-header glass-card">
+            <div class="quiz-title">
+                <span id="questionCounter">Question 1 / 15</span>
+                <h2 id="videoTitle">Video Quiz</h2>
+                <a id="videoLink" href="#" target="_blank" rel="noreferrer">
+                    <i class="fa-brands fa-youtube"></i> Open video
+                </a>
+            </div>
+            <div class="timer" id="timer"><i class="fa-regular fa-clock"></i><strong>15:00</strong> Remaining</div>
+            <div class="progress-track"><span id="progressFill"></span></div>
+        </section>
+
+        <div class="quiz-layout">
+            <section class="question-card glass-card">
+                <div class="question-meta">
+                    <span id="difficultyBadge" class="difficulty">Medium</span>
+                    <span id="questionType">MCQ</span>
+                    <span id="questionTopic">Topic</span>
+                </div>
+                <h2 id="questionText"></h2>
+                <div id="answerArea" class="answer-area"></div>
+                <div class="quiz-actions">
+                    <button id="previousBtn" class="secondary-btn"><i class="fa-solid fa-arrow-left"></i>Previous</button>
+                    <button id="skipBtn" class="ghost-btn">Skip</button>
+                    <button id="nextBtn" class="primary-btn">Next<i class="fa-solid fa-arrow-right"></i></button>
+                    <button id="submitBtn" class="submit-btn hidden"><i class="fa-solid fa-paper-plane"></i>Submit Quiz</button>
+                </div>
+            </section>
+            <aside class="navigator glass-card">
+                <div class="navigator-head">
+                    <h3>Questions</h3>
+                    <span id="answeredCount">0 answered</span>
+                </div>
+                <div id="questionNav" class="question-nav"></div>
+                <div class="navigator-legend">
+                    <span><i class="answered-dot"></i>Answered</span>
+                    <span><i class="current-dot"></i>Current</span>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <section id="resultView" class="hidden">
+        <section id="resultHero" class="result-hero glass-card"></section>
+        <section id="scoreGrid" class="score-grid"></section>
+
+        <div class="analytics-grid">
+            <section class="glass-card analytics-card">
+                <div class="section-heading"><div><span>Performance</span><h2>Difficulty Analysis</h2></div></div>
+                <div class="chart-wrap"><canvas id="difficultyChart"></canvas></div>
+                <div id="difficultyStats" class="difficulty-stats"></div>
+            </section>
+            <section class="glass-card analytics-card">
+                <div class="section-heading"><div><span>Topics</span><h2>Strong & Weak Areas</h2></div></div>
+                <div class="topic-columns">
+                    <div><h3 class="strong-title"><i class="fa-solid fa-circle-check"></i>Strong Areas</h3><ul id="strongAreas"></ul></div>
+                    <div><h3 class="weak-title"><i class="fa-solid fa-circle-xmark"></i>Weak Areas</h3><ul id="weakAreas"></ul></div>
+                </div>
+            </section>
+        </div>
+
+        <section class="glass-card learning-card">
+            <div class="section-heading"><div><span>Personalized report</span><h2>Learning Analysis</h2></div></div>
+            <div id="learningAnalysis" class="learning-grid"></div>
+        </section>
+
+        <section class="glass-card review-card">
+            <div class="section-heading">
+                <div><span>Learn from every answer</span><h2>Quiz Review</h2></div>
+                <button id="toggleReviewBtn" class="secondary-btn">Show Review</button>
+            </div>
+            <div id="reviewList" class="review-list hidden"></div>
+        </section>
+
+        <div class="result-actions">
+            <button id="newQuizBtn" class="primary-btn"><i class="fa-solid fa-plus"></i>Generate Another Quiz</button>
+        </div>
+    </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="quiz.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>LearnTube Dashboard</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+<!-- Sidebar navigation -->
+<aside class="sidebar">
+    <a class="brand" href="dashboard.html">
+        <span class="brand-icon"><i class="fa-solid fa-play"></i></span>
+        LearnTube
+    </a>
+
+    <ul>
+        <li><a class="active" href="dashboard.html"><i class="fa-solid fa-house"></i>Dashboard</a></li>
+        <li><a href="playlist.html"><i class="fa-solid fa-play"></i>Playlists</a></li>
+        <li><a href="quiz.html"><i class="fa-solid fa-wand-magic-sparkles"></i>AI Quiz</a></li>
+        <li><a href="portfolio.html"><i class="fa-solid fa-award"></i>Certificates</a></li>
+        <li><a href="portfolio.html"><i class="fa-solid fa-user"></i>Profile</a></li>
+    </ul>
+</aside>
+
+<main class="main-content">
+
+    <!-- Top navbar -->
+    <nav class="topbar">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search playlists, topics, or skills...">
+        </div>
+
+        <a class="profile" href="portfolio.html" aria-label="Open profile">
+            <i class="fa-solid fa-user"></i>
+        </a>
+
+        <button class="logout-btn" id="logoutBtn">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </button>
+    </nav>
+
+    <section class="welcome card-panel">
+        <div>
+            <span class="eyebrow"><i class="fa-brands fa-youtube"></i>YouTube learning hub</span>
+            <h1 id="welcomeUser">Welcome back</h1>
+            <p>Keep building verified skills with focused video learning.</p>
+        </div>
+
+        <a class="primary-btn" href="playlist.html" id="continueLearningBtn">
+            Continue Learning
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+    </section>
+
+    <!-- Dashboard stats are rendered by dashboard.js -->
+    <section class="stats" id="statsContainer"></section>
+
+    <section class="recent">
+        <h2>Recent Learning</h2>
+
+        <!-- Recent learning cards are rendered by dashboard.js -->
+        <div class="playlist-container" id="recentLearningContainer"></div>
+    </section>
+
+</main>
+
+<script src="dashboard.js"></script>
+</body>
+</html>

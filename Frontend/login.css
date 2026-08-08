@@ -1,0 +1,422 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Segoe UI",Arial,sans-serif;
+}
+
+body{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+background: radial-gradient(circle at top left, rgba(255, 0, 0, 0.18), transparent 30%), radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.12), transparent 32%), #2b1111;
+overflow:hidden;
+}
+
+.container{
+position:relative;
+width:850px;
+height:550px;
+background:#1e293b;
+border-radius:30px;
+overflow:hidden;
+box-shadow:0 0 30px rgba(0,0,0,0.3);
+animation:cardEntrance .8s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.form-box{
+position:absolute;
+top:0;
+height:100%;
+width:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:40px;
+transition:all .6s ease-in-out;
+background:#1e293b;
+}
+
+.login{
+left:0;
+z-index:2;
+animation:formEntrance .7s .15s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.register{
+left:0;
+opacity:0;
+z-index:1;
+}
+
+.container.active .login{
+transform:translateX(100%);
+opacity:0;
+}
+
+.container.active .register{
+transform:translateX(100%);
+opacity:1;
+z-index:5;
+}
+
+form{
+width:100%;
+}
+
+h1{
+margin-bottom:10px;
+color:white;
+letter-spacing:0;
+}
+
+.subtitle{
+margin-bottom:25px;
+color:#cbd5e1;
+}
+
+.input-box{
+position:relative;
+margin:15px 0;
+}
+
+.input-box input{
+width:100%;
+padding:14px;
+padding-right:40px;
+border:none;
+outline:none;
+border-radius:10px;
+background:#f1f1f1;
+transition:background .25s ease,box-shadow .25s ease,transform .25s ease;
+}
+
+.input-box i{
+position:absolute;
+right:15px;
+top:15px;
+color:#64748b;
+transition:color .25s ease,transform .25s ease;
+}
+
+.input-box input:focus{
+background:#fff;
+box-shadow:0 0 0 3px rgba(255,0,0,0.18),0 10px 25px rgba(15,23,42,0.08);
+transform:translateY(-1px);
+}
+
+.input-box input:focus + i{
+color:#ff0000;
+transform:scale(1.08);
+}
+
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+margin-top:15px;
+cursor:pointer;
+font-size:16px;
+background:#ff0000;
+color:white;
+font-weight:700;
+transition:transform .25s ease,box-shadow .25s ease,background .25s ease;
+}
+
+button:hover{
+transform:translateY(-2px);
+box-shadow:0 12px 24px rgba(255,0,0,0.22);
+}
+
+button:active{
+transform:translateY(0);
+box-shadow:none;
+}
+
+.google-btn{
+background:white;
+border:1px solid #ccc;
+color:black;
+}
+
+.form-message{
+min-height:20px;
+margin-top:12px;
+font-size:14px;
+font-weight:700;
+line-height:1.4;
+text-align:center;
+}
+
+.form-message.success{
+color:#22c55e;
+}
+
+.form-message.error{
+color:#f87171;
+}
+
+/* Overlay */
+
+.overlay-container{
+position:absolute;
+top:0;
+left:50%;
+width:50%;
+height:100%;
+overflow:hidden;
+transition:all .6s ease-in-out;
+z-index:100;
+}
+
+.container.active .overlay-container{
+transform:translateX(-100%);
+}
+
+.overlay{
+background:linear-gradient(
+135deg,
+#ff0000,
+#2b1111
+);
+
+position:relative;
+left:-100%;
+
+width:200%;
+height:100%;
+
+transition:all .6s ease-in-out;
+color:white;
+overflow:hidden;
+}
+
+.overlay::before,
+.overlay::after{
+content:"";
+position:absolute;
+border-radius:999px;
+background:rgba(255,255,255,0.18);
+filter:blur(1px);
+animation:floatBubble 8s ease-in-out infinite;
+}
+
+.overlay::before{
+width:190px;
+height:190px;
+top:45px;
+left:90px;
+}
+
+.overlay::after{
+width:125px;
+height:125px;
+right:115px;
+bottom:65px;
+animation-delay:-3s;
+}
+
+.container.active .overlay{
+transform:translateX(50%);
+}
+
+.overlay-panel{
+position:absolute;
+width:50%;
+height:100%;
+
+display:flex;
+flex-direction:column;
+
+justify-content:center;
+align-items:center;
+
+padding:40px;
+text-align:center;
+z-index:1;
+transition:transform .6s ease-in-out;
+}
+
+.left{
+transform:translateX(-20%);
+}
+
+.right{
+right:0;
+}
+
+.container.active .left{
+transform:translateX(0);
+}
+
+.container.active .right{
+transform:translateX(20%);
+}
+
+.overlay-panel button{
+width:150px;
+background:white;
+color:rgb(103, 12, 12);
+margin-top:20px;
+box-shadow:0 14px 30px rgba(15,23,42,0.18);
+}
+
+.overlay-panel h1{
+color:white;
+font-size:38px;
+line-height:1.1;
+margin-bottom:14px;
+animation:panelTextIn .7s .18s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.tagline{
+max-width:290px;
+font-size:18px;
+line-height:1.55;
+font-weight:500;
+text-align:center;
+text-wrap:balance;
+animation:panelTextIn .7s .28s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.overlay-panel button{
+animation:panelTextIn .7s .38s cubic-bezier(.2,.8,.2,1) both;
+}
+
+@keyframes cardEntrance{
+from{
+opacity:0;
+transform:translateY(24px) scale(.96);
+}
+to{
+opacity:1;
+transform:translateY(0) scale(1);
+}
+}
+
+@keyframes formEntrance{
+from{
+opacity:0;
+filter:blur(4px);
+}
+to{
+opacity:1;
+filter:blur(0);
+}
+}
+
+@keyframes panelTextIn{
+from{
+opacity:0;
+transform:translateY(18px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes floatBubble{
+0%,100%{
+transform:translate3d(0,0,0) scale(1);
+}
+50%{
+transform:translate3d(18px,-22px,0) scale(1.08);
+}
+}
+
+@media (max-width:900px){
+.container{
+width:92vw;
+height:560px;
+border-radius:24px;
+}
+}
+
+@media (max-width:680px){
+body{
+height:auto;
+min-height:100vh;
+padding:24px 0;
+overflow:auto;
+}
+
+.container{
+width:92vw;
+height:auto;
+min-height:760px;
+}
+
+.form-box,
+.overlay-container{
+position:relative;
+width:100%;
+left:0;
+height:auto;
+min-height:380px;
+}
+
+.form-box{
+padding:32px 24px;
+}
+
+.register{
+display:none;
+opacity:1;
+}
+
+.container.active .login{
+display:none;
+transform:none;
+}
+
+.container.active .register{
+display:flex;
+transform:none;
+}
+
+.overlay-container,
+.container.active .overlay-container{
+transform:none;
+}
+
+.overlay{
+left:0;
+width:100%;
+min-height:300px;
+transform:none;
+}
+
+.container.active .overlay{
+transform:none;
+}
+
+.overlay-panel{
+position:relative;
+width:100%;
+min-height:300px;
+padding:34px 24px;
+}
+
+.left{
+display:none;
+transform:none;
+}
+
+.right{
+right:auto;
+transform:none;
+}
+
+.container.active .left{
+display:flex;
+transform:none;
+}
+
+.container.active .right{
+display:none;
+transform:none;
+}
+}
