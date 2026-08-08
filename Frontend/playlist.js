@@ -457,7 +457,7 @@ if(item.type === "playlist") {
 card.dataset.playlistId = item.playlistId || item.itemId || item.id;
 }
 
-const isUnlocked = item.quizUnlocked;
+const isUnlocked = item.type === "video" || item.quizUnlocked;
 const typeLabel = item.type === "playlist" ? "Playlist" : "Video";
 const status = getStatusText(item);
 const safeTitle = escapeHtml(getDisplayTitle(item));
@@ -500,7 +500,7 @@ card.innerHTML = `
 
     <p class="unlock-message ${isUnlocked ? "unlocked" : ""}">
         <i class="fa-solid ${isUnlocked ? "fa-lock-open" : "fa-lock"}"></i>
-        ${isUnlocked ? "Quiz Unlocked" : "Complete this video to unlock quiz"}
+        ${isUnlocked ? (item.type === "playlist" ? "Final playlist quiz unlocked" : "Video quiz available") : "Complete the playlist to unlock the final quiz"}
     </p>
 
 </div>
@@ -521,10 +521,10 @@ if(action === "delete") {
     deletePlaylist(item.id);
 }
 if(action === "quiz") {
-if(item.quizUnlocked) {
+if(item.type === "video" || item.quizUnlocked) {
 openQuiz(item);
 } else {
-showMessage("Complete this video to unlock quiz.", "error");
+showMessage("Complete the playlist to unlock the final quiz.", "error");
 }
 }
 });
@@ -706,7 +706,7 @@ window.location.href = `quiz.html?playlistId=${encodeURIComponent(playlistId)}`;
 return;
 }
 
-window.location.href = "quiz.html";
+window.location.href = `quiz.html?videoUrl=${encodeURIComponent(item.url || `https://www.youtube.com/watch?v=${item.videoId}`)}`;
 }
 
 function setFilter(filter) {

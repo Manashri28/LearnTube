@@ -298,18 +298,23 @@ message: "Learning item not found"
 });
 }
 
-const progress = normalizeProgress(req.body.progress ?? item.progress);
-const completed = req.body.completed === true || progress >= 100;
+let progress = normalizeProgress(req.body.progress ?? item.progress);
+let completed = req.body.completed === true || progress >= 100;
 const now = new Date();
+
+if(item.type === "playlist" && Array.isArray(req.body.videos)) {
+item.videos = req.body.videos;
+const completedVideos = item.videos.filter((video) => video.completed === true).length;
+progress = item.videos.length
+? Math.round((completedVideos / item.videos.length) * 100)
+: 0;
+completed = item.videos.length > 0 && completedVideos === item.videos.length;
+}
 
 item.progress = progress;
 item.completed = completed;
-item.quizUnlocked = req.body.quizUnlocked === true || item.quizUnlocked === true || completed;
+item.quizUnlocked = item.type === "playlist" ? completed : (req.body.quizUnlocked === true || item.quizUnlocked === true || completed);
 item.lastActiveAt = now;
-
-if(Array.isArray(req.body.videos)) {
-item.videos = req.body.videos;
-}
 
 if(completed) {
 item.completedAt = item.completedAt || now;

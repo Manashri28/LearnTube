@@ -693,7 +693,7 @@ playlistId: playlist.playlistId || playlist.itemId || playlist.id || playlistId
 };
 
 document.getElementById("welcomePlaylistTitle").textContent = playlist.displayTitle || playlist.title || "Playlist Quiz";
-document.getElementById("welcomeQuestionCount").textContent = statusData?.questionCount || 15;
+document.getElementById("welcomeQuestionCount").textContent = statusData?.playlistQuestionCount || 45;
 document.getElementById("welcomeMessage").textContent = "";
 document.getElementById("startPlaylistQuizBtn").disabled = false;
 } catch (error) {
@@ -753,6 +753,14 @@ localStorage.removeItem(QUIZ_STATE_KEY);
 }
 
 if(!state) {
+const videoUrl = new URLSearchParams(window.location.search).get("videoUrl");
+
+if(videoUrl) {
+elements.videoUrl.value = videoUrl;
+generateQuizFromUrl(videoUrl);
+return;
+}
+
 showView("generator");
 checkQuizStatus();
 } else if(state.status === "complete") {

@@ -228,7 +228,14 @@ message: "User not found"
 const playlistTitles = getPlaylistDisplayTitleMap(user);
 const savedPlaylistTitle = playlistTitles.get(String(playlistId || ""));
 const quizAttempt = findQuizAttempt(user, quizAttemptId);
-const certificateScore = getQuizPercentage(quizAttempt, score);
+
+if(!quizAttempt || !quizAttempt.passed || getQuizPercentage(quizAttempt) < PASSING_PERCENTAGE) {
+return res.status(400).json({
+message: "A passing quiz attempt is required to generate a certificate."
+});
+}
+
+const certificateScore = getQuizPercentage(quizAttempt);
 
 if(certificateScore < PASSING_PERCENTAGE) {
 return res.status(400).json({
@@ -253,7 +260,7 @@ user.certificates.unshift({
 title: certificateTitle,
 displayTitle: certificateTitle,
 score: certificateScore,
-playlistId: playlistId || quizAttempt?.playlistId || "",
+playlistId: quizAttempt.playlistId || playlistId || "",
 quizAttemptId: quizAttemptId || undefined,
 generatedAt: new Date()
 });

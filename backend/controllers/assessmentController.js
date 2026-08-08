@@ -20,11 +20,7 @@ function getUserId(req) {
 return req.user.userId || req.user.id || req.user._id;
 }
 
-function normalizePercentage(score, total, percentage) {
-if(Number.isFinite(Number(percentage))) {
-return Math.round(Number(percentage));
-}
-
+function normalizePercentage(score, total) {
 const numericScore = Number(score);
 const numericTotal = Number(total);
 
@@ -80,6 +76,12 @@ throw new Error("Playlist not found");
 }
 
 const videos = Array.isArray(playlist.videos) ? playlist.videos : [];
+const completed = videos.length > 0 && videos.every((video) => video.completed === true);
+
+if(!completed) {
+throw new Error("Complete the entire playlist before starting the final quiz.");
+}
+
 const videoUrls = videos
 .map(getVideoUrl)
 .filter(Boolean);
@@ -190,9 +192,10 @@ message: "GEMINI_API_KEY is not configured on the server."
 }
 
 const video = isPlaylistQuiz
-? await getPlaylistQuizSource(getUserId(req), playlistId)
-: await getYouTubeTranscript(videoUrl);
-const questions = await generateQuizFromTranscript(video);
+	? await getPlaylistQuizSource(getUserId(req), playlistId)
+	: await getYouTubeTranscript(videoUrl);
+const questionCount = isPlaylistQuiz ? 45 : 15;
+const questions = await generateQuizFromTranscript({ ...video, questionCount });
 
 return res.status(201).json({
 videoTitle: video.videoTitle,
@@ -200,7 +203,7 @@ videoUrl: video.videoUrl,
 questions
 });
 } catch (error) {
-const clientError = /valid YouTube|supported|transcript is available|Playlist not found|saved videos|No transcript is available/i.test(error.message);
+const clientError = /valid YouTube|supported|transcript is available|Playlist not found|saved videos|No transcript is available|Complete the entire playlist/i.test(error.message);
 const configError = /GEMINI_API_KEY/i.test(error.message);
 return res.status(clientError ? 422 : configError ? 503 : 500).json({
 message: error.message || "Quiz generation failed."
@@ -213,6 +216,7 @@ res.status(200).json({
 geminiConfigured: hasGeminiApiKey(),
 transcriptSource: "youtube-transcript",
 questionCount: 15,
+playlistQuestionCount: 45,
 passingPercentage: PASSING_PERCENTAGE,
 durationMinutes: 15
 });
@@ -247,7 +251,7 @@ message: "Video title, score, and total are required."
 });
 }
 
-const finalPercentage = normalizePercentage(score, total, percentage);
+const finalPercentage = normalizePercentage(score, total);
 const passed = finalPercentage >= PASSING_PERCENTAGE;
 
 const user = await User.findById(
