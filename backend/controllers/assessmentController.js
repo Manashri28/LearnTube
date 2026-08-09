@@ -171,7 +171,14 @@ answer:
 const generateYouTubeQuiz = async (req, res) => {
 try {
 const { type, playlistId, videoUrl } = req.body || {};
-const isPlaylistQuiz = type === "playlist" || Boolean(playlistId);
+const isPlaylistQuiz = type === "playlist";
+const isVideoQuiz = type === "video";
+
+if(!isPlaylistQuiz && !isVideoQuiz) {
+return res.status(400).json({
+message: "Quiz type must be video or playlist."
+});
+}
 
 if(isPlaylistQuiz && !playlistId) {
 return res.status(400).json({
@@ -179,9 +186,9 @@ message: "A playlist ID is required."
 });
 }
 
-if(!isPlaylistQuiz && !videoUrl) {
+if(isVideoQuiz && (!videoUrl || playlistId)) {
 return res.status(400).json({
-message: "A YouTube video URL is required."
+message: "A video quiz requires a YouTube video URL and no playlist ID."
 });
 }
 
@@ -241,17 +248,19 @@ videoUrl,
 playlistId,
 score,
 total,
-percentage,
 analysis
 } = req.body;
 
-if(!videoTitle || !Number.isFinite(Number(score)) || !Number.isFinite(Number(total))) {
+const numericScore = Number(score);
+const numericTotal = Number(total);
+
+if(!videoTitle || !Number.isInteger(numericScore) || !Number.isInteger(numericTotal) || numericTotal <= 0 || numericScore < 0 || numericScore > numericTotal) {
 return res.status(400).json({
-message: "Video title, score, and total are required."
+message: "Video title, score, and a valid total are required."
 });
 }
 
-const finalPercentage = normalizePercentage(score, total);
+const finalPercentage = normalizePercentage(numericScore, numericTotal);
 const passed = finalPercentage >= PASSING_PERCENTAGE;
 
 const user = await User.findById(
@@ -275,8 +284,8 @@ videoTitle: resolvedTitle,
 displayTitle: resolvedTitle,
 videoUrl: videoUrl || "",
 title: resolvedTitle,
-score: Number(score),
-total: Number(total),
+score: numericScore,
+total: numericTotal,
 percentage: finalPercentage,
 passed,
 analysis: analysis || null,

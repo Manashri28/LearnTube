@@ -225,16 +225,16 @@ message: "User not found"
 });
 }
 
-const playlistTitles = getPlaylistDisplayTitleMap(user);
-const savedPlaylistTitle = playlistTitles.get(String(playlistId || ""));
 const quizAttempt = findQuizAttempt(user, quizAttemptId);
+const certificatePlaylist = findSavedPlaylist(user, quizAttempt?.playlistId || playlistId);
 
-if(!quizAttempt || !quizAttempt.passed || getQuizPercentage(quizAttempt) < PASSING_PERCENTAGE) {
+if(!quizAttempt || !quizAttempt.playlistId || !quizAttempt.passed || getQuizPercentage(quizAttempt) < PASSING_PERCENTAGE || !certificatePlaylist || certificatePlaylist.completed !== true) {
 return res.status(400).json({
-message: "A passing quiz attempt is required to generate a certificate."
+message: "A passing final playlist quiz is required to generate a certificate."
 });
 }
 
+const savedPlaylistTitle = getDisplayTitle(certificatePlaylist);
 const certificateScore = getQuizPercentage(quizAttempt);
 
 if(certificateScore < PASSING_PERCENTAGE) {
@@ -243,9 +243,7 @@ message: "A passing quiz score is required to generate a certificate."
 });
 }
 
-const certificateTitle = savedPlaylistTitle
-? `${savedPlaylistTitle} Certificate`
-: title;
+const certificateTitle = `${savedPlaylistTitle} Certificate`;
 
 const existingCertificate = user.certificates.find((certificate) => {
 const sameAttempt =
@@ -260,7 +258,7 @@ user.certificates.unshift({
 title: certificateTitle,
 displayTitle: certificateTitle,
 score: certificateScore,
-playlistId: quizAttempt.playlistId || playlistId || "",
+playlistId: certificatePlaylist.playlistId || quizAttempt.playlistId,
 quizAttemptId: quizAttemptId || undefined,
 generatedAt: new Date()
 });
@@ -270,12 +268,12 @@ await user.save();
 existingCertificate.title !== certificateTitle ||
 existingCertificate.displayTitle !== certificateTitle ||
 existingCertificate.score !== certificateScore ||
-(!existingCertificate.playlistId && (playlistId || quizAttempt?.playlistId))
+(!existingCertificate.playlistId && certificatePlaylist.playlistId)
 ) {
 existingCertificate.title = certificateTitle;
 existingCertificate.displayTitle = certificateTitle;
 existingCertificate.score = certificateScore;
-existingCertificate.playlistId = existingCertificate.playlistId || playlistId || quizAttempt?.playlistId || "";
+existingCertificate.playlistId = existingCertificate.playlistId || certificatePlaylist.playlistId || quizAttempt.playlistId;
 await user.save();
 }
 
