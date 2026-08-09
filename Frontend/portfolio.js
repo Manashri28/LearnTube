@@ -27,8 +27,18 @@ document.getElementById(
 );
 
 const copyBtn =
-document.querySelector(
-".public-link button"
+document.getElementById(
+"copyProfileUrlBtn"
+);
+
+const shareProfileBtn =
+document.getElementById(
+"shareProfileBtn"
+);
+
+const publicProfileUrl =
+document.getElementById(
+"publicProfileUrl"
 );
 
 // localStorage stores the JWT from login so this protected page can call the backend.
@@ -58,6 +68,18 @@ logoutBtn.addEventListener(
 "click",
 clearSessionAndRedirect
 );
+
+function getPublicProfileUrl(publicProfileId) {
+const url = new URL(
+"public-profile.html",
+window.location.href
+);
+url.searchParams.set(
+"profile",
+publicProfileId
+);
+return url.toString();
+}
 
 function renderPortfolioStats(stats) {
 portfolioStatsContainer.innerHTML =
@@ -268,6 +290,11 @@ data.user
 profileName.textContent =
 data.user.name;
 
+publicProfileUrl.value =
+getPublicProfileUrl(
+data.user.publicProfileId
+);
+
 renderPortfolioStats(
 data.stats
 );
@@ -284,16 +311,32 @@ clearSessionAndRedirect();
 
 copyBtn.addEventListener(
 "click",
-()=>{
-const input =
-document.querySelector(
-".public-link input"
+async ()=>{
+await navigator.clipboard.writeText(
+publicProfileUrl.value
 );
 
-navigator.clipboard.writeText(
-input.value
+copyBtn.innerHTML =
+`<i class="fa-solid fa-check"></i> Copied`;
+}
 );
 
+shareProfileBtn.addEventListener(
+"click",
+async ()=>{
+const url = publicProfileUrl.value;
+
+if(navigator.share) {
+await navigator.share({
+title: "LearnTube Public Profile",
+url
+});
+return;
+}
+
+await navigator.clipboard.writeText(
+url
+);
 copyBtn.innerHTML =
 `<i class="fa-solid fa-check"></i> Copied`;
 }

@@ -5,6 +5,7 @@ const router = express.Router();
 
 const protect = require("../middleware/authMiddleware");
 const User = require("../models/User");
+const { randomUUID } = require("crypto");
 const {
 getDisplayTitle
 } = require("../utils/titleUtils");
@@ -106,8 +107,13 @@ router.get("/portfolio", protect, async (req, res) => {
 const user = await User.findById(
 req.user.userId
 ).select(
-"name email skills certificates quizAttempts learningHistory"
-).lean();
+"name email publicProfileId skills certificates quizAttempts learningHistory"
+);
+
+if(user && !user.publicProfileId) {
+user.publicProfileId = randomUUID();
+await user.save();
+}
 
 const quizAttempts = user?.quizAttempts || [];
 const certificates = user?.certificates || [];
@@ -124,6 +130,7 @@ message: "Portfolio access granted",
 user: {
 id: req.user.userId,
 name: user ? user.name : "Learner",
+publicProfileId: user?.publicProfileId || "",
 email: req.user.email
 },
 stats: [

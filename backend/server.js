@@ -15,6 +15,7 @@ const playlistRoutes = require("./routes/playlistRoutes");
 const assessmentRoutes = require("./routes/assessmentRoutes");
 const protectedRoutes = require("./routes/protectedRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
+const publicProfileRoutes = require("./routes/publicProfileRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -38,6 +39,7 @@ app.use("/",youtubeRoutes);
 
 // API routes
 app.use("/", authRoutes);
+app.use("/", publicProfileRoutes);
 app.use("/", protectedRoutes);
 app.use("/", dashboardRoutes);
 app.use("/playlists", playlistRoutes);
