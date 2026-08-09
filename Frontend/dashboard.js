@@ -132,11 +132,10 @@ card
 }
 
 function buildPlaylistHref(item) {
-const playlistId =
-item.playlistId || item._id;
+const playlistId = item.playlistId || item._id;
 
 return playlistId
-? `playlist.html?playlistId=${encodeURIComponent(playlistId)}`
+? `playlist-details.html?playlistId=${encodeURIComponent(playlistId)}`
 : "playlist.html";
 }
 
@@ -315,12 +314,16 @@ card
 }
 
 function setContinueLearningTarget(continueLearning) {
-const playlistId =
-continueLearning && continueLearning.playlistId;
+const playlistId = continueLearning && continueLearning.playlistId;
+const videoUrl = continueLearning && continueLearning.url;
 
-continueLearningBtn.href =
-playlistId
-? `playlist.html?playlistId=${encodeURIComponent(playlistId)}`
+if(continueLearning?.type === "video" && videoUrl) {
+continueLearningBtn.href = videoUrl;
+return;
+}
+
+continueLearningBtn.href = playlistId
+? `playlist-details.html?playlistId=${encodeURIComponent(playlistId)}`
 : "playlist.html";
 }
 

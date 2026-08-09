@@ -116,7 +116,8 @@ view.classList.toggle("hidden", key !== name);
 
 function saveState() {
 if(state) {
-localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify(state));
+const { quizAttemptPromise, ...persistedState } = state;
+localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify(persistedState));
 }
 }
 
@@ -220,7 +221,7 @@ clearInterval(loadingInterval);
 }
 
 async function generateQuizFromUrl(videoUrl) {
-return generateQuizWithPayload({ videoUrl });
+return generateQuizWithPayload({ type: "video", videoUrl });
 }
 
 async function generateQuizFromPlaylist(playlistId) {
@@ -391,6 +392,11 @@ if(state.quizAttemptId) {
 return state.quizAttemptId;
 }
 
+if(state.quizAttemptPromise) {
+return state.quizAttemptPromise;
+}
+
+state.quizAttemptPromise = (async () => {
 try {
 const data = await apiRequest("/assessments/attempts", {
 method: "POST",
@@ -411,7 +417,12 @@ return state.quizAttemptId;
 } catch (error) {
 console.warn("Quiz attempt was not saved to MongoDB:", error.message);
 return null;
+} finally {
+state.quizAttemptPromise = null;
 }
+})();
+
+return state.quizAttemptPromise;
 }
 
 function topicPerformance(result) {
@@ -452,13 +463,18 @@ icon,
 createTextElement("h2", result.passed ? "Congratulations, you passed!" : "Keep learning, then try again."),
 createTextElement("p", `${state.videoTitle} · ${result.percentage}%`)
 );
+const canClaimCertificate = Boolean(state.playlistId) && result.passed;
 const eligibility = createTextElement(
-"div",
-result.passed ? "You are eligible for a certificate." : `Score ${PASSING_PERCENTAGE}% or higher to become certificate eligible.`,
-"eligibility"
-);
+	"div",
+	canClaimCertificate
+	? "You are eligible for a certificate."
+	: result.passed
+	? "You passed this video quiz. Complete the playlist final assessment to become certificate eligible."
+	: `Score ${PASSING_PERCENTAGE}% or higher to become certificate eligible.`,
+	"eligibility"
+	);
 elements.resultHero.appendChild(eligibility);
-if(result.passed) {
+if(canClaimCertificate) {
 const button = createTextElement("button", "Claim Certificate", "primary-btn");
 button.addEventListener("click", handleCertificateClaim);
 elements.resultHero.appendChild(button);
@@ -693,7 +709,7 @@ playlistId: playlist.playlistId || playlist.itemId || playlist.id || playlistId
 };
 
 document.getElementById("welcomePlaylistTitle").textContent = playlist.displayTitle || playlist.title || "Playlist Quiz";
-document.getElementById("welcomeQuestionCount").textContent = statusData?.questionCount || 15;
+document.getElementById("welcomeQuestionCount").textContent = statusData?.playlistQuestionCount || 45;
 document.getElementById("welcomeMessage").textContent = "";
 document.getElementById("startPlaylistQuizBtn").disabled = false;
 } catch (error) {
@@ -750,6 +766,15 @@ try {
 state = JSON.parse(localStorage.getItem(QUIZ_STATE_KEY));
 } catch (error) {
 localStorage.removeItem(QUIZ_STATE_KEY);
+}
+
+const videoUrl = new URLSearchParams(window.location.search).get("videoUrl");
+
+if(videoUrl) {
+localStorage.removeItem(QUIZ_STATE_KEY);
+elements.videoUrl.value = videoUrl;
+generateQuizFromUrl(videoUrl);
+return;
 }
 
 if(!state) {

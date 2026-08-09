@@ -52,7 +52,7 @@ return Number.isFinite(score) ? score : 0;
 }
 
 function isPassed(attempt) {
-return attempt.passed === true || getQuizPercentage(attempt) >= 70;
+return attempt.passed === true && getQuizPercentage(attempt) >= 75;
 }
 
 function getDashboardCollections(user) {
@@ -96,7 +96,7 @@ skills
 } = getDashboardCollections(user);
 
 const playlists = learningHistory.filter((item) => {
-return item && (item.type === "playlist" || item.playlistId || item.title);
+return item && item.type === "playlist";
 });
 
 const playlistsCompleted = playlists.filter((item) => {
@@ -129,7 +129,9 @@ playlistId: String(item.playlistId || item._id || item.id || ""),
 title: getDisplayTitle(item),
 progress: getProgress(item),
 thumbnail: item.thumbnail || "",
-url: item.url || ""
+url: item.url || "",
+type: item.type,
+videoId: item.videoId || ""
 }));
 
 const continuePlaylist = playlists
@@ -151,7 +153,10 @@ recentLearning,
 continueLearning: {
 playlistId: continuePlaylist
 ? String(continuePlaylist.playlistId || continuePlaylist._id || continuePlaylist.id || "")
-: null
+: null,
+type: continuePlaylist?.type || null,
+videoId: continuePlaylist?.videoId || "",
+url: continuePlaylist?.url || ""
 }
 });
 } catch (error) {

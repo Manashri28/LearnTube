@@ -114,7 +114,7 @@ const completed = videos.length > 0 && progress === 100;
 
 state.playlist.progress = progress;
 state.playlist.completed = completed;
-state.playlist.quizUnlocked = completed || state.playlist.quizUnlocked === true;
+state.playlist.quizUnlocked = completed;
 
 if(completed && !state.playlist.completedAt) {
 state.playlist.completedAt = new Date().toISOString();
