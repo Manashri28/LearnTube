@@ -150,18 +150,27 @@ value: `${averageScore}%`,
 icon: "fa-chart-line"
 }
 ],
-skills: verifiedSkills.map((skill) => ({
+skills: (user?.skills || []).map((skill) => ({
 name: playlistTitles.get(String(skill.playlistId || "")) || skill.displayTitle || skill.name,
-score: skill.score
+score: skill.score,
+earned: skill.verified === true,
+achievement: skill.verified
+? "Verified through assessment"
+: "Assessment not completed"
 })),
-certificates: certificates.map((certificate) => ({
-id: String(certificate._id || ""),
-name: playlistTitles.has(String(certificate.playlistId || ""))
-? `${playlistTitles.get(String(certificate.playlistId))} Certificate`
-: certificate.displayTitle || certificate.title,
-score: certificate.score,
-generatedAt: certificate.generatedAt
-}))
+certificates: certificates.map((certificate) => {
+const certificatePayload = buildCertificatePayload(user, certificate);
+
+return {
+id: certificatePayload.id,
+title: certificatePayload.title,
+courseTitle: certificatePayload.courseTitle,
+channelName: certificatePayload.channelName,
+score: certificatePayload.quizScore,
+completionDate: certificatePayload.completionDate,
+certificateId: certificatePayload.certificateId
+};
+})
 });
 });
 

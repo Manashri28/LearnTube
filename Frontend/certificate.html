@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LearnTube Certificate</title>
+<link rel="stylesheet" href="certificate.css">
+</head>
+<body>
+<main class="certificate-page">
+<a class="back-link" href="portfolio.html?tab=certifications">Back to Certifications</a>
+<section class="certificate-document" id="certificateDocument" hidden>
+<p class="certificate-label">LearnTube Achievement</p>
+<h1 id="certificateTitle">Certificate</h1>
+<p class="certificate-recipient">This certificate is awarded to</p>
+<h2 id="learnerName">Learner</h2>
+<p id="courseTitle"></p>
+<div class="certificate-details">
+<p><strong>Mentor/Channel:</strong> <span id="channelName"></span></p>
+<p><strong>Final Assessment:</strong> <span id="quizScore"></span></p>
+<p><strong>Completion Date:</strong> <span id="completionDate"></span></p>
+<p><strong>Certificate ID:</strong> <span id="certificateId"></span></p>
+</div>
+<button id="downloadCertificateBtn">Print / Download</button>
+</section>
+<section class="certificate-status" id="certificateStatus" aria-live="polite">Loading certificate...</section>
+</main>
+<script src="certificate.js"></script>
+</body>
+</html>
