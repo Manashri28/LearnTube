@@ -12,6 +12,10 @@ unique: true,
 sparse: true,
 default: randomUUID
 },
+reviewPromptDismissed: {
+type: Boolean,
+default: false
+},
 name: {
 type: String,
 required: true,

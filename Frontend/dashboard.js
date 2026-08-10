@@ -33,6 +33,14 @@ document.getElementById(
 "logoutBtn"
 );
 
+const reviewPrompt = document.getElementById("reviewPrompt");
+const reviewForm = document.getElementById("reviewForm");
+const reviewText = document.getElementById("reviewText");
+const reviewMessage = document.getElementById("reviewMessage");
+const dismissReviewBtn = document.getElementById("dismissReviewBtn");
+const reviewStars = document.querySelectorAll(".review-star");
+let selectedRating = 0;
+
 // localStorage stores the JWT received during login so protected pages can reuse it.
 const token =
 localStorage.getItem(
@@ -327,6 +335,98 @@ continueLearningBtn.href = playlistId
 : "playlist.html";
 }
 
+function setReviewMessage(message, type = "") {
+reviewMessage.textContent = message;
+reviewMessage.className = `review-message ${type}`;
+}
+
+function showReviewPrompt() {
+reviewPrompt.hidden = false;
+}
+
+function hideReviewPrompt() {
+reviewPrompt.hidden = true;
+}
+
+reviewStars.forEach((star) => {
+star.addEventListener("click", () => {
+selectedRating = Number(star.dataset.rating);
+reviewStars.forEach((item) => {
+item.classList.toggle("selected", Number(item.dataset.rating) <= selectedRating);
+});
+});
+});
+
+async function loadReviewPrompt() {
+try {
+const response = await fetch(`${API_URL}/reviews/my-review`, {
+headers: {
+Authorization: `Bearer ${token}`
+}
+});
+
+if(!response.ok) {
+return;
+}
+
+const data = await response.json();
+if(data.eligible && !data.review && !data.promptDismissed) {
+showReviewPrompt();
+}
+} catch (error) {
+return;
+}
+}
+
+reviewForm.addEventListener("submit", async (event) => {
+event.preventDefault();
+
+if(!selectedRating) {
+setReviewMessage("Please choose a rating from 1 to 5 stars.", "error");
+return;
+}
+
+try {
+const response = await fetch(`${API_URL}/reviews`, {
+method: "POST",
+headers: {
+"Content-Type": "application/json",
+Authorization: `Bearer ${token}`
+},
+body: JSON.stringify({
+rating: selectedRating,
+text: reviewText.value
+})
+});
+const data = await response.json();
+
+if(!response.ok) {
+setReviewMessage(data.message || "Unable to submit review.", "error");
+return;
+}
+
+setReviewMessage("Thanks for sharing your feedback. It is pending approval.", "success");
+window.setTimeout(hideReviewPrompt, 1200);
+} catch (error) {
+setReviewMessage("Unable to submit review right now.", "error");
+}
+});
+
+dismissReviewBtn.addEventListener("click", async () => {
+hideReviewPrompt();
+
+try {
+await fetch(`${API_URL}/reviews/dismiss`, {
+method: "POST",
+headers: {
+Authorization: `Bearer ${token}`
+}
+});
+} catch (error) {
+return;
+}
+});
+
 function setLoadingState() {
 welcomeUser.textContent =
 "Loading your dashboard...";
@@ -379,8 +479,9 @@ renderRecentLearning(
 data.recentLearning || []
 );
 setContinueLearningTarget(
-data.continueLearning
-);
+ data.continueLearning
+ );
+loadReviewPrompt();
 } catch (error) {
 welcomeUser.textContent =
 "We could not load your dashboard right now.";

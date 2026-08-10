@@ -72,6 +72,29 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         <div class="playlist-container" id="recentLearningContainer"></div>
     </section>
 
+    <section class="review-prompt card-panel" id="reviewPrompt" hidden>
+        <div>
+            <span class="eyebrow"><i class="fa-solid fa-heart"></i>Platform feedback</span>
+            <h2>How's your LearnTube experience?</h2>
+            <p>Your feedback helps us make learning better. This review is about LearnTube, not a specific course.</p>
+        </div>
+        <form id="reviewForm">
+            <div class="review-stars" role="radiogroup" aria-label="LearnTube rating">
+                <button type="button" class="review-star" data-rating="1" aria-label="1 star">★</button>
+                <button type="button" class="review-star" data-rating="2" aria-label="2 stars">★</button>
+                <button type="button" class="review-star" data-rating="3" aria-label="3 stars">★</button>
+                <button type="button" class="review-star" data-rating="4" aria-label="4 stars">★</button>
+                <button type="button" class="review-star" data-rating="5" aria-label="5 stars">★</button>
+            </div>
+            <textarea id="reviewText" maxlength="1000" placeholder="Tell us what you think..."></textarea>
+            <p class="review-message" id="reviewMessage" role="status"></p>
+            <div class="review-actions">
+                <button class="primary-btn" type="submit">Submit Review</button>
+                <button class="secondary-btn" id="dismissReviewBtn" type="button">Maybe later</button>
+            </div>
+        </form>
+    </section>
+
 </main>
 
 <script src="dashboard.js"></script>
