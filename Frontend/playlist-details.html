@@ -24,8 +24,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         <li><a href="dashboard.html"><i class="fa-solid fa-house"></i>Dashboard</a></li>
         <li><a class="active" href="playlist.html"><i class="fa-solid fa-play"></i>Playlists</a></li>
         <li><a href="quiz.html"><i class="fa-solid fa-wand-magic-sparkles"></i>AI Quiz</a></li>
-        <li><a href="portfolio.html"><i class="fa-solid fa-award"></i>Certificates</a></li>
-        <li><a href="portfolio.html"><i class="fa-solid fa-user"></i>Profile</a></li>
+        <li><a href="portfolio.html?tab=certifications"><i class="fa-solid fa-award"></i>Certifications</a></li>
+        <li><a href="portfolio.html?tab=profile"><i class="fa-solid fa-user"></i>Profile</a></li>
     </ul>
 </aside>
 
@@ -36,7 +36,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
             Back to Library
         </a>
 
-        <a class="profile" href="portfolio.html" aria-label="Open profile">
+        <a class="profile" href="portfolio.html?tab=profile" aria-label="Open profile">
             <i class="fa-solid fa-user"></i>
         </a>
     </nav>
@@ -71,6 +71,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
             <button class="btn" id="continueBtn">
                 <i class="fa-solid fa-circle-play"></i>
                 Continue Learning
+            </button>
+
+            <button class="btn focus-btn" id="focusModeBtn">
+                <i class="fa-solid fa-bullseye"></i>
+                Start Focus Mode
             </button>
 
             <button class="btn hidden" id="quizBtn">

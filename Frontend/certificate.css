@@ -1,0 +1,127 @@
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:28px;
+background:radial-gradient(circle at top left,rgba(255,0,0,.18),transparent 30%),radial-gradient(circle at bottom right,rgba(14,165,233,.12),transparent 32%),#2b1111;
+color:white;
+font-family:"Segoe UI",Arial,sans-serif;
+}
+
+.certificate-page{
+width:min(850px,100%);
+}
+
+.back-link{
+display:inline-block;
+margin-bottom:18px;
+color:#cbd5e1;
+font-weight:700;
+text-decoration:none;
+}
+
+.certificate-document,
+.certificate-status{
+padding:48px;
+background:#1e293b;
+border:1px solid rgba(255,255,255,.08);
+border-radius:16px;
+box-shadow:0 16px 36px rgba(0,0,0,.18);
+text-align:center;
+}
+
+.certificate-label{
+color:#ff0000;
+font-weight:900;
+letter-spacing:.12em;
+text-transform:uppercase;
+}
+
+.certificate-document h1{
+margin:18px 0 28px;
+font-size:clamp(28px,5vw,48px);
+}
+
+.certificate-recipient,
+.certificate-details{
+color:#cbd5e1;
+}
+
+.certificate-document h2{
+margin:8px 0;
+font-size:32px;
+}
+
+#courseTitle{
+margin:0 0 30px;
+font-size:22px;
+font-weight:800;
+}
+
+.certificate-details{
+display:grid;
+gap:8px;
+margin-bottom:30px;
+}
+
+.certificate-details p{
+margin:0;
+}
+
+button{
+padding:13px 18px;
+border:0;
+border-radius:12px;
+background:#ff0000;
+color:white;
+font-weight:900;
+cursor:pointer;
+}
+
+:where(a, button, input, textarea, select):focus-visible{
+outline:2px solid #ff4d4d;
+outline-offset:4px;
+}
+
+.certificate-document{
+background:linear-gradient(145deg,rgba(255,255,255,.07),transparent 55%),#1e293b;
+box-shadow:0 24px 72px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.certificate-document h2{
+color:#ffb4b4;
+}
+
+@media print{
+body{
+background:white;
+color:#111827;
+}
+
+.back-link,
+button{
+display:none;
+}
+
+.certificate-document{
+box-shadow:none;
+border:2px solid #111827;
+}
+}
+
+@media (max-width:600px){
+body{
+padding:20px;
+}
+
+.certificate-document,
+.certificate-status{
+padding:28px 20px;
+}
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LearnTube Public Profile</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="public-profile.css">
+</head>
+<body>
+<header class="public-header">
+<a class="brand" href="landing.html">
+<span class="brand-icon"><i class="fa-solid fa-play"></i></span>
+LearnTube
+</a>
+</header>
+<main class="public-profile-content">
+<section class="profile-hero card-panel" id="profileContent" hidden>
+<div class="profile-section">
+<div class="profile-image"><i class="fa-solid fa-user"></i></div>
+<div>
+<span class="eyebrow"><i class="fa-brands fa-youtube"></i>Verified learner</span>
+<h1 id="profileName">Learner</h1>
+<p>Verified learning through LearnTube</p>
+</div>
+</div>
+</section>
+<section class="profile-sections" id="profileDetails" hidden>
+<section>
+<div class="section-head">
+<h2>Skill Badges</h2>
+<span>Verified skills</span>
+</div>
+<div class="profile-grid" id="skillsContainer"></div>
+</section>
+<section>
+<div class="section-head">
+<h2>Certificates</h2>
+<span>Earned rewards</span>
+</div>
+<div class="profile-grid" id="certificatesContainer"></div>
+</section>
+<section>
+<div class="section-head">
+<h2>Completed Learning</h2>
+<span>Learning achievements</span>
+</div>
+<div class="profile-grid" id="completedCoursesContainer"></div>
+</section>
+</section>
+<section class="status-panel card-panel" id="profileStatus" aria-live="polite">
+<i class="fa-solid fa-spinner fa-spin"></i>
+<p>Loading public profile...</p>
+</section>
+</main>
+<script src="public-profile.js"></script>
+</body>
+</html>

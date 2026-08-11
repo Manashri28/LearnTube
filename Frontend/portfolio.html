@@ -26,8 +26,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         <li><a href="playlist.html"><i class="fa-solid fa-play"></i>Playlists</a></li>
 
         <li><a href="quiz.html"><i class="fa-solid fa-wand-magic-sparkles"></i>AI Quiz</a></li>
-        <li><a href="portfolio.html"><i class="fa-solid fa-award"></i>Certificates</a></li>
-        <li><a class="active" href="portfolio.html"><i class="fa-solid fa-user"></i>Profile</a></li>
+        <li><a href="portfolio.html?tab=certifications" data-tab="certifications"><i class="fa-solid fa-award"></i>Certifications</a></li>
+        <li><a href="portfolio.html?tab=profile" data-tab="profile"><i class="fa-solid fa-user"></i>Profile</a></li>
     </ul>
 </aside>
 
@@ -40,7 +40,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
             <input type="text" placeholder="Search verified skills...">
         </div>
 
-        <a class="profile-icon" href="portfolio.html" aria-label="Open profile">
+        <a class="profile-icon" href="portfolio.html?tab=profile" aria-label="Open profile">
             <i class="fa-solid fa-user"></i>
         </a>
 
@@ -50,7 +50,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         </button>
     </nav>
 
-    <section class="profile-hero card-panel">
+    <nav class="portfolio-tabs" aria-label="Portfolio sections">
+<a href="portfolio.html?tab=profile" data-tab="profile">Profile</a>
+<a href="portfolio.html?tab=skills" data-tab="skills">Skills</a>
+<a href="portfolio.html?tab=certifications" data-tab="certifications">Certifications</a>
+</nav>
+
+<section class="profile-hero card-panel" data-section="profile">
         <div class="profile-section">
             <div class="profile-image">
                 <i class="fa-solid fa-user"></i>
@@ -64,16 +70,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
             </div>
         </div>
 
-        <button class="share-btn">
+        <button class="share-btn" id="shareProfileBtn">
             <i class="fa-solid fa-share-nodes"></i>
             Share Profile
         </button>
     </section>
 
     <!-- Portfolio stats are rendered by portfolio.js -->
-    <section class="stats" id="portfolioStatsContainer"></section>
+    <section class="stats" id="portfolioStatsContainer" data-section="profile"></section>
 
-    <section>
+    <section data-section="skills">
         <div class="section-head">
             <h2>Verified Skills</h2>
             <span>Playlist based</span>
@@ -83,9 +89,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         <div class="skills" id="skillsContainer"></div>
     </section>
 
-    <section>
+    <section data-section="certifications">
         <div class="section-head">
-            <h2>Certificates</h2>
+            <h2>Certifications</h2>
             <span>Earned rewards</span>
         </div>
 
@@ -93,15 +99,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         <div class="certificate-section" id="certificatesContainer"></div>
     </section>
 
-    <section class="public-link card-panel">
+    <section class="public-link card-panel" data-section="profile">
         <div>
             <h3>Public Profile Link</h3>
             <p>Share your verified LearnTube skills with others.</p>
         </div>
 
         <div class="link-row">
-            <input value="www.learntube.com/manashree" readonly>
-            <button><i class="fa-solid fa-copy"></i>Copy</button>
+            <input id="publicProfileUrl" readonly>
+            <button id="copyProfileUrlBtn"><i class="fa-solid fa-copy"></i>Copy</button>
         </div>
     </section>
 

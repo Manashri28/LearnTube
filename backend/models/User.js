@@ -2,9 +2,20 @@
 // Mongoose uses this schema to validate and store user documents in MongoDB.
 
 const mongoose = require("mongoose");
+const { randomUUID } = require("crypto");
 
 const userSchema = new mongoose.Schema(
 {
+publicProfileId: {
+type: String,
+unique: true,
+sparse: true,
+default: randomUUID
+},
+reviewPromptDismissed: {
+type: Boolean,
+default: false
+},
 name: {
 type: String,
 required: true,

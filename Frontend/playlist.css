@@ -626,6 +626,42 @@ color:#86efac;
 animation:completePop .45s ease both;
 }
 
+:where(a, button, input, textarea, select):focus-visible{
+outline:2px solid #ff4d4d;
+outline-offset:4px;
+}
+
+.content-card{
+position:relative;
+}
+
+.card-media::after{
+content:"";
+position:absolute;
+inset:0;
+pointer-events:none;
+background:linear-gradient(180deg,transparent 42%,rgba(15,23,42,.58));
+opacity:.72;
+transition:opacity .35s ease;
+}
+
+.content-card:hover .card-media::after{
+opacity:.92;
+}
+
+.content-card:hover{
+box-shadow:0 26px 58px rgba(0,0,0,.3);
+}
+
+.filter-tab{
+transition:background .25s ease,color .25s ease,transform .25s ease,box-shadow .25s ease;
+}
+
+.filter-tab.active{
+box-shadow:0 10px 24px rgba(255,0,0,.18);
+}
+
+/* Keep the existing playlist entrance motion, with a calmer surface polish. */
 @keyframes fadeUp{
 from{
 opacity:0;

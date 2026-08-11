@@ -25,6 +25,7 @@ progressText: document.getElementById("progressText"),
 progressFill: document.getElementById("progressFill"),
 continueBtn: document.getElementById("continueBtn"),
 quizBtn: document.getElementById("quizBtn"),
+focusModeBtn: document.getElementById("focusModeBtn"),
 videosList: document.getElementById("videosList")
 };
 
@@ -306,6 +307,15 @@ const firstIncomplete = getVideos().find((video) => !video.completed);
 
 if(firstIncomplete) {
 watchVideo(firstIncomplete);
+}
+});
+
+elements.focusModeBtn.addEventListener("click", () => {
+const currentPlaylistId = state.playlist?.playlistId || state.playlist?.itemId || state.playlist?.id || playlistId;
+const firstIncompleteIndex = getVideos().findIndex((video) => !video.completed);
+
+if(currentPlaylistId) {
+window.location.href = `focus-mode.html?playlistId=${encodeURIComponent(currentPlaylistId)}${firstIncompleteIndex >= 0 ? `&videoIndex=${firstIncompleteIndex}` : ""}`;
 }
 });
 
