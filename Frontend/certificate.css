@@ -84,6 +84,20 @@ font-weight:900;
 cursor:pointer;
 }
 
+:where(a, button, input, textarea, select):focus-visible{
+outline:2px solid #ff4d4d;
+outline-offset:4px;
+}
+
+.certificate-document{
+background:linear-gradient(145deg,rgba(255,255,255,.07),transparent 55%),#1e293b;
+box-shadow:0 24px 72px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.certificate-document h2{
+color:#ffb4b4;
+}
+
 @media print{
 body{
 background:white;

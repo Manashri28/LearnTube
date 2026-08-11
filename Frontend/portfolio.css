@@ -472,6 +472,56 @@ grid-template-columns:1fr;
 }
 }
 
+:where(a, button, input, textarea, select):focus-visible{
+outline:2px solid #ff4d4d;
+outline-offset:4px;
+}
+
+.portfolio-tabs a{
+box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+
+.portfolio-tabs a.active{
+box-shadow:0 12px 26px rgba(255,0,0,.2);
+}
+
+.profile-hero{
+position:relative;
+overflow:hidden;
+background:linear-gradient(135deg,rgba(255,0,0,.14),transparent 48%),linear-gradient(145deg,rgba(255,255,255,.05),transparent),#1e293b;
+}
+
+.profile-hero::after{
+content:"";
+position:absolute;
+width:260px;
+aspect-ratio:1;
+right:-100px;
+top:-150px;
+border-radius:50%;
+background:rgba(255,0,0,.11);
+filter:blur(12px);
+pointer-events:none;
+}
+
+.profile-image{
+box-shadow:0 0 0 8px rgba(255,0,0,.08),0 18px 40px rgba(0,0,0,.26);
+}
+
+.stat-card,
+.skill-card,
+.certificate-card{
+box-shadow:0 18px 42px rgba(0,0,0,.22);
+}
+
+.certificate-card{
+background:linear-gradient(145deg,rgba(255,255,255,.07),transparent 54%),#1e293b;
+}
+
+.public-link{
+background:linear-gradient(135deg,rgba(255,0,0,.1),transparent 46%),linear-gradient(145deg,rgba(255,255,255,.05),transparent),#1e293b;
+}
+
 /* YouTube theme polish */
 body{
 background:

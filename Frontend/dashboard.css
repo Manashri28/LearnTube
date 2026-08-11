@@ -451,6 +451,67 @@ text-align:center;
 }
 }
 
+:where(a, button, input, textarea, select):focus-visible{
+outline:2px solid #ff4d4d;
+outline-offset:4px;
+}
+
+.card-panel,
+.stat-card,
+.playlist-card{
+position:relative;
+overflow:hidden;
+}
+
+.card-panel::before,
+.stat-card::before,
+.playlist-card::before{
+content:"";
+position:absolute;
+inset:0;
+pointer-events:none;
+background:linear-gradient(135deg,rgba(255,255,255,.06),transparent 42%);
+opacity:.7;
+}
+
+.stat-card,
+.playlist-card{
+transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease;
+}
+
+.stat-card:hover,
+.playlist-card:hover{
+box-shadow:0 24px 54px rgba(0,0,0,.28);
+}
+
+.playlist-card img{
+transition:transform .45s ease,filter .45s ease;
+}
+
+.playlist-card:hover img{
+transform:scale(1.035);
+filter:saturate(1.08) contrast(1.04);
+}
+
+.review-prompt{
+position:relative;
+overflow:hidden;
+background:linear-gradient(135deg,rgba(255,0,0,.13),transparent 48%),linear-gradient(145deg,rgba(255,255,255,.05),transparent),#1e293b;
+}
+
+.review-prompt::after{
+content:"";
+position:absolute;
+width:220px;
+aspect-ratio:1;
+right:-110px;
+top:-120px;
+border-radius:50%;
+background:rgba(255,0,0,.12);
+filter:blur(10px);
+pointer-events:none;
+}
+
 /* YouTube theme polish */
 body{
 background:
