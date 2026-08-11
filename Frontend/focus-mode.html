@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LearnTube Focus Mode</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="focus-mode.css">
+</head>
+<body>
+<main class="focus-shell">
+<header class="focus-header">
+<a class="focus-brand" href="dashboard.html"><span class="brand-icon"><i class="fa-solid fa-play"></i></span>LearnTube</a>
+<button class="exit-button" id="exitFocusBtn">Exit Focus Mode</button>
+</header>
+<section class="focus-status" id="focusStatus" aria-live="polite" hidden></section>
+<section class="focus-layout" id="focusLayout" hidden>
+<div class="focus-main-panel">
+<span class="focus-kicker"><i class="fa-solid fa-bullseye"></i>Focused learning session</span>
+<h1 id="courseTitle">Course</h1>
+<p class="focus-channel" id="courseChannel"></p>
+<div class="lesson-art" id="lessonThumbnail"></div>
+<div class="lesson-heading">
+<div>
+<span class="focus-kicker">Current lecture</span>
+<h2 id="lessonTitle">Lecture</h2>
+</div>
+<span class="lesson-count" id="lessonCount">1 / 1</span>
+</div>
+<div class="progress-summary">
+<div><span>Playlist progress</span><strong id="progressText">0%</strong></div>
+<div class="progress-track"><span id="progressFill"></span></div>
+</div>
+<div class="focus-actions">
+<button class="primary-action" id="startLectureBtn"><i class="fa-solid fa-play"></i>Start Lecture</button>
+<button class="secondary-action" id="quizLectureBtn"><i class="fa-solid fa-wand-magic-sparkles"></i>Take AI Quiz</button>
+<button class="secondary-action" id="nextLectureBtn"><i class="fa-solid fa-forward"></i>Next Lecture</button>
+<button class="secondary-action hidden" id="finalQuizBtn"><i class="fa-solid fa-award"></i>Take Final Playlist Quiz</button>
+</div>
+</div>
+<aside class="focus-sidebar">
+<section class="timer-panel">
+<span class="focus-kicker"><i class="fa-solid fa-clock"></i>Focus timer</span>
+<strong id="timerDisplay">25:00</strong>
+<select id="timerSelect" aria-label="Focus timer duration">
+<option value="25">25 min</option>
+<option value="45">45 min</option>
+<option value="60">60 min</option>
+</select>
+<p id="timerMessage">Your timer is a learning aid. Continue whenever you are ready.</p>
+</section>
+<section class="companion-panel">
+<span class="focus-kicker"><i class="fa-solid fa-puzzle-piece"></i>FocusTube companion</span>
+<h2>For a calmer YouTube session</h2>
+<p>LearnTube does not control browser extensions. For the best distraction-free experience, use FocusTube with LearnTube.</p>
+<a class="store-link" href="https://chromewebstore.google.com/detail/focustube-hide-youtube-sh/bolmmhkapeekgcjopdmnbmnhgaapbpdb" target="_blank" rel="noopener noreferrer">Get FocusTube</a>
+<div class="setup-guide">
+<strong>Recommended FocusTube setup</strong>
+<ul>
+<li>Hide Shorts</li>
+<li>Hide Recommendations</li>
+<li>Hide Comments</li>
+<li>Disable Autoplay</li>
+<li>Zen Mode</li>
+</ul>
+<p>Enable these settings from the FocusTube extension menu. LearnTube does not change them programmatically.</p>
+</div>
+</section>
+</aside>
+</section>
+</main>
+<script src="focus-mode.js"></script>
+</body>
+</html>

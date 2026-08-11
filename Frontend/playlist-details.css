@@ -304,6 +304,10 @@ box-shadow:none;
 background:#26364d;
 }
 
+.btn.focus-btn{
+background:linear-gradient(135deg,#7f1d1d,#b91c1c);
+}
+
 .btn.success{
 background:#15803d;
 }

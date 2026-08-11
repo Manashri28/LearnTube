@@ -123,16 +123,20 @@ const recentLearning = playlists
 .slice()
 .sort((a, b) => getActivityTime(b) - getActivityTime(a))
 .slice(0, 3)
-.map((item) => ({
+.map((item) => {
+const currentVideo = (item.videos || []).find((video) => !video.completed) || item.videos?.[0];
+
+return {
 _id: String(item._id || item.playlistId || item.id || ""),
 playlistId: String(item.playlistId || item._id || item.id || ""),
 title: getDisplayTitle(item),
 progress: getProgress(item),
 thumbnail: item.thumbnail || "",
-url: item.url || "",
+url: currentVideo?.url || item.url || "",
 type: item.type,
-videoId: item.videoId || ""
-}));
+videoId: currentVideo?.videoId || item.videoId || ""
+};
+});
 
 const continuePlaylist = playlists
 .slice()

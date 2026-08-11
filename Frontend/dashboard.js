@@ -147,6 +147,17 @@ return playlistId
 : "playlist.html";
 }
 
+function buildFocusHref(item) {
+const playlistId = item.playlistId || item._id;
+const videoId = item.videoId;
+
+if(!playlistId) {
+return "playlist.html";
+}
+
+return `focus-mode.html?playlistId=${encodeURIComponent(playlistId)}${videoId ? `&videoId=${encodeURIComponent(videoId)}` : ""}`;
+}
+
 function renderEmptyRecentLearning() {
 const empty =
 document.createElement(
@@ -291,10 +302,13 @@ continueLink.href =
 buildPlaylistHref(
 item
 );
-continueLink.style.marginTop =
-"18px";
 continueLink.textContent =
 "Continue";
+
+const focusLink = document.createElement("a");
+focusLink.className = "focus-link";
+focusLink.href = buildFocusHref(item);
+focusLink.textContent = "Focus Mode";
 
 progressBar.appendChild(
 progressFill
@@ -313,6 +327,9 @@ progressBar
 );
 card.appendChild(
 continueLink
+);
+card.appendChild(
+focusLink
 );
 recentLearningContainer.appendChild(
 card
