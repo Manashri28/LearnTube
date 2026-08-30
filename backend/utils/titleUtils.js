@@ -44,11 +44,11 @@ let cleaned = original
 .replace(/\([^)]*\)/g, " ")
 .replace(/\[[^\]]*\]/g, " ")
 .replace(/\b(20\d{2})\b/g, " ")
-.replace(/\b(beginner\s*to\s*advanced|zero\s*to\s*hero|complete\s*playlist|full\s*course|crash\s*course|complete\s*course)\b/gi, " ")
-.replace(/\b(complete|ultimate|playlist|tutorials?|course|videos?|classes|masterclass|bootcamp|hindi|english)\b/gi, " ")
+.replace(/\b(beginner\s*to\s*advanced|zero\s*to\s*hero|complete\s*playlist|full\s*course|crash\s*course|complete\s*course|for\s*beginners?)\b/gi, " ")
+.replace(/\b(complete|ultimate|playlist|tutorials?|course|videos?|classes|masterclass|bootcamp|hindi|english|beginners?)\b/gi, " ")
 .replace(/[|:;,/\\()[\]{}]+/g, " ")
 .replace(/\s+-\s+/g, " ")
-.replace(/\bwith\b/gi, " ")
+.replace(/\b(with|in|for)\b/gi, " ")
 .replace(/\s+/g, " ")
 .trim();
 
@@ -63,7 +63,7 @@ cleaned = cleaned.replace(pattern, " ");
 const words = [];
 cleaned.split(/\s+/).forEach((word) => {
 const normalized = word.toLowerCase();
-if(!normalized || ["the", "a", "an"].includes(normalized) || words.some((entry) => entry.toLowerCase() === normalized)) {
+if(!normalized || ["the", "a", "an", "in", "for", "with"].includes(normalized) || words.some((entry) => entry.toLowerCase() === normalized)) {
 return;
 }
 words.push(word);
@@ -77,7 +77,13 @@ return displayTitle || original;
 }
 
 function getDisplayTitle(item, fallback = "Untitled Playlist") {
-return item?.displayTitle || generateDisplayTitle(item?.title) || item?.title || fallback;
+if (item?.title) {
+const generated = generateDisplayTitle(item.title);
+if (generated && generated !== item.title && !/^youtube playlist$/i.test(generated)) {
+return generated;
+}
+}
+return generateDisplayTitle(item?.displayTitle) || item?.displayTitle || item?.title || fallback;
 }
 
 module.exports = {
