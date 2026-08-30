@@ -8,21 +8,61 @@
 </head>
 <body>
 <main class="certificate-page">
-<a class="back-link" href="portfolio.html?tab=certifications">Back to Certifications</a>
-<section class="certificate-document" id="certificateDocument" hidden>
-<p class="certificate-label">LearnTube Achievement</p>
-<h1 id="certificateTitle">Certificate</h1>
-<p class="certificate-recipient">This certificate is awarded to</p>
-<h2 id="learnerName">Learner</h2>
-<p id="courseTitle"></p>
-<div class="certificate-details">
-<p><strong>Mentor/Channel:</strong> <span id="channelName"></span></p>
-<p><strong>Final Assessment:</strong> <span id="quizScore"></span></p>
-<p><strong>Completion Date:</strong> <span id="completionDate"></span></p>
-<p><strong>Certificate ID:</strong> <span id="certificateId"></span></p>
+<div class="controls-container">
+    <a class="back-link" href="portfolio.html?tab=certifications">Back to Certifications</a>
+    <button id="downloadCertificateBtn">Print / Download</button>
 </div>
-<button id="downloadCertificateBtn">Print / Download</button>
+
+<section class="certificate-document" id="certificateDocument" hidden>
+    <div class="cert-outer-border">
+        <div class="cert-inner-border">
+
+            <div class="cert-header">
+                <div class="brand-logo">
+                    <span class="brand-learn">Learn</span><span class="brand-tube">Tube</span>
+                </div>
+                <h1 id="certificateTitle" class="cert-title">CERTIFICATE OF APPRECIATION</h1>
+            </div>
+
+            <div class="cert-body">
+                <p class="certificate-recipient">is awarded to</p>
+                <h2 id="learnerName">Learner</h2>
+
+                <p class="cert-completion-text">for successfully completing</p>
+                <h3 id="courseTitle">Course Title</h3>
+
+                <p class="cert-statement">
+                    This certificate recognizes the learner's successful completion of the learning journey and final assessment on LearnTube.
+                </p>
+
+                <div class="certificate-details">
+                    <div class="detail-col">
+                        <p><strong>Mentor / Channel:</strong> <span id="channelName"></span></p>
+                        <p><strong>Final Assessment:</strong> <span id="quizScore"></span></p>
+                    </div>
+                    <div class="detail-col">
+                        <p><strong>Completion Date:</strong> <span id="completionDate"></span></p>
+                        <p><strong>Certificate ID:</strong> <span id="certificateId"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cert-footer">
+                <div class="cert-seal">
+                    <div class="seal-inner">
+                        <span class="seal-text">ACHIEVEMENT<br>SEAL</span>
+                    </div>
+                </div>
+                <div class="cert-signature">
+                    <div class="signature-line"></div>
+                    <p>LearnTube Platform</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </section>
+
 <section class="certificate-status" id="certificateStatus" aria-live="polite">Loading certificate...</section>
 </main>
 <script src="certificate.js"></script>

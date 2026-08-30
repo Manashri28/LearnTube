@@ -82,7 +82,7 @@ item.displayTitle = generateDisplayTitle(item.title);
 changed = true;
 }
 
-if(!isGenericPlaylistTitle(item.title) || !item.playlistId) {
+if((!isGenericPlaylistTitle(item.title) && item.channel) || !item.playlistId) {
 continue;
 }
 
@@ -224,6 +224,17 @@ if(!item.itemId || !item.title) {
 return res.status(400).json({
 message: "A learning item id and title are required."
 });
+}
+
+// Ensure channel metadata is fetched if missing for playlists
+if (item.type === "playlist" && !item.channel && item.playlistId) {
+    const metadata = await fetchYouTubePlaylistMetadata(item.playlistId);
+    if (metadata) {
+        item.channel = metadata.channel;
+        item.title = isGenericPlaylistTitle(item.title) ? metadata.title : item.title;
+        item.thumbnail = item.thumbnail || metadata.thumbnail;
+        item.displayTitle = generateDisplayTitle(item.title);
+    }
 }
 
 const user = await User.findById(
