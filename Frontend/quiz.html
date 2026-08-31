@@ -54,6 +54,10 @@
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                     Generate Quiz
                 </button>
+                <button id="generateProctoredBtn" class="primary-btn">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Generate Proctored
+                </button>
             </div>
             <p id="generatorMessage" class="message" role="status"></p>
         </section>
@@ -91,6 +95,10 @@
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                     Start Quiz
                 </button>
+                <button id="startProctoredPlaylistQuizBtn" class="primary-btn">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Start Proctored Quiz
+                </button>
             </div>
         </section>
     </section>
@@ -101,8 +109,52 @@
         <p>Gemini is turning this lesson into a balanced assessment.</p>
     </section>
 
+    <section id="proctorInstructionsView" class="hidden">
+        <section class="quiz-welcome glass-card">
+            <span class="eyebrow"><i class="fa-solid fa-shield-halved"></i>Proctored Assessment</span>
+            <h2>Assessment Instructions</h2>
+            <p>This assessment requires a secure environment. Please read the rules carefully.</p>
+
+            <ul class="proctor-rules">
+                <li><i class="fa-solid fa-expand"></i> <strong>Fullscreen:</strong> You must complete the assessment in fullscreen mode.</li>
+                <li><i class="fa-solid fa-video"></i> <strong>Camera:</strong> Keep your face visible to the camera at all times.</li>
+                <li><i class="fa-solid fa-window-restore"></i> <strong>Tab Monitoring:</strong> Stay on this tab. Do not switch tabs or windows.</li>
+                <li><i class="fa-solid fa-users-slash"></i> <strong>No Help:</strong> No additional people should appear on camera.</li>
+            </ul>
+
+            <p class="proctor-warning message">Leaving fullscreen or switching tabs may be treated as a violation. Repeated violations will automatically terminate your assessment.</p>
+            <p id="proctorSetupMessage" class="message" role="status"></p>
+
+            <div class="welcome-actions">
+                <button id="cancelProctorBtn" class="secondary-btn">
+                    Cancel
+                </button>
+                <button id="acceptProctorBtn" class="primary-btn">
+                    <i class="fa-solid fa-check"></i>
+                    I Agree, Start Setup
+                </button>
+            </div>
+        </section>
+    </section>
+
+    <section id="abortView" class="hidden">
+        <section class="quiz-welcome glass-card">
+            <span class="eyebrow"><i class="fa-solid fa-triangle-exclamation"></i>Proctoring Violation</span>
+            <h2>Assessment Aborted</h2>
+            <p id="abortMessage">Your assessment was automatically terminated.</p>
+            <div class="welcome-actions">
+                <a href="dashboard.html" class="primary-btn">Return to Dashboard</a>
+            </div>
+        </section>
+    </section>
+
     <section id="quizView" class="hidden">
         <section class="quiz-header glass-card">
+            <div class="proctor-status-bar">
+                <span id="cameraStatus"><i class="fa-solid fa-video"></i> Active</span>
+                <span id="fullscreenStatus"><i class="fa-solid fa-expand"></i> Active</span>
+                <span id="violationStatus"><i class="fa-solid fa-triangle-exclamation"></i> Violations: 0</span>
+            </div>
             <div class="quiz-title">
                 <span id="questionCounter">Question 1 / 15</span>
                 <h2 id="videoTitle">Video Quiz</h2>
@@ -182,7 +234,13 @@
     </section>
 </main>
 
+<div id="cameraPreviewContainer" class="hidden">
+    <video id="cameraPreview" autoplay playsinline muted></video>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
 <script src="quiz.js"></script>
 </body>
 </html>
