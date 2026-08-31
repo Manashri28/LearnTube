@@ -82,31 +82,6 @@ passed: {
 type: Boolean,
 default: false
 },
-proctored: {
-type: Boolean,
-default: false
-},
-tabSwitchViolations: {
-type: Number,
-default: 0
-},
-fullscreenViolations: {
-type: Number,
-default: 0
-},
-cameraViolations: {
-type: Number,
-default: 0
-},
-personPresenceViolations: {
-type: Number,
-default: 0
-},
-status: {
-type: String,
-enum: ["started", "completed", "aborted"],
-default: "completed"
-},
 analysis: mongoose.Schema.Types.Mixed,
 createdAt: Date
 }

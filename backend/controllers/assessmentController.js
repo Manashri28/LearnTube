@@ -248,13 +248,7 @@ videoUrl,
 playlistId,
 score,
 total,
-analysis,
-proctored,
-tabSwitchViolations,
-fullscreenViolations,
-cameraViolations,
-personPresenceViolations,
-status
+analysis
 } = req.body;
 
 const numericScore = Number(score);
@@ -267,8 +261,7 @@ message: "Video title, score, and a valid total are required."
 }
 
 const finalPercentage = normalizePercentage(numericScore, numericTotal);
-const isAborted = status === "aborted";
-const passed = isAborted ? false : (finalPercentage >= PASSING_PERCENTAGE);
+const passed = finalPercentage >= PASSING_PERCENTAGE;
 
 const user = await User.findById(
 getUserId(req)
@@ -295,12 +288,6 @@ score: numericScore,
 total: numericTotal,
 percentage: finalPercentage,
 passed,
-proctored: !!proctored,
-tabSwitchViolations: Number(tabSwitchViolations) || 0,
-fullscreenViolations: Number(fullscreenViolations) || 0,
-cameraViolations: Number(cameraViolations) || 0,
-personPresenceViolations: Number(personPresenceViolations) || 0,
-status: isAborted ? "aborted" : "completed",
 analysis: analysis || null,
 createdAt: new Date()
 };
