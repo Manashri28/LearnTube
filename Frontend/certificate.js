@@ -33,9 +33,25 @@ showCertificateStatus("Certificate not found.");
 return;
 }
 
+function getCleanCourseName(title) {
+    if (!title) return "Course";
+
+    let name = title;
+
+    name = name
+        .replace(/\b(full course|complete course|course|tutorial|tutorials|beginner to advanced|beginners|masterclass)\b/gi, "")
+        .replace(/\b(20\d{2})\b/g, "")
+        .replace(/\s*[-|:•]\s*/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+
+    return name || title;
+}
+
 const data = await response.json();
 const certificate = data.certificate;
-document.getElementById("certificateTitle").textContent = certificate.title;
+document.getElementById("courseTitle").textContent =
+    getCleanCourseName(certificate.courseTitle);
 document.getElementById("learnerName").textContent = certificate.learnerName;
 document.getElementById("courseTitle").textContent = certificate.courseTitle;
 document.getElementById("channelName").textContent = certificate.channelName;

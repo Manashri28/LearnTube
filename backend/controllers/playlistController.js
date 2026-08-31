@@ -77,13 +77,17 @@ if(item.type !== "playlist") {
 continue;
 }
 
-if(!item.displayTitle && item.title) {
-item.displayTitle = generateDisplayTitle(item.title);
-changed = true;
+if(item.title) {
+    const generatedTitle = generateDisplayTitle(item.title);
+
+    if(item.displayTitle !== generatedTitle) {
+        item.displayTitle = generatedTitle;
+        changed = true;
+    }
 }
 
-if((!isGenericPlaylistTitle(item.title) && item.channel) || !item.playlistId) {
-continue;
+if(!item.playlistId) {
+    continue;
 }
 
 const metadata = await fetchYouTubePlaylistMetadata(item.playlistId);
@@ -94,7 +98,7 @@ continue;
 
 item.title = metadata.title;
 item.displayTitle = generateDisplayTitle(metadata.title);
-item.channel = item.channel || metadata.channel;
+item.channel = metadata.channel || item.channel || "";
 item.thumbnail = item.thumbnail || metadata.thumbnail;
 changed = true;
 }
