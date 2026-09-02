@@ -201,7 +201,7 @@ message: "GEMINI_API_KEY is not configured on the server."
 const video = isPlaylistQuiz
 	? await getPlaylistQuizSource(getUserId(req), playlistId)
 	: await getYouTubeTranscript(videoUrl);
-const questionCount = isPlaylistQuiz ? 45 : 15;
+const questionCount = isPlaylistQuiz ? 30 : 15;
 const questions = await generateQuizFromTranscript({ ...video, questionCount });
 
 return res.status(201).json({
@@ -223,7 +223,7 @@ res.status(200).json({
 geminiConfigured: hasGeminiApiKey(),
 transcriptSource: "youtube-transcript",
 questionCount: 15,
-playlistQuestionCount: 45,
+playlistQuestionCount: 30,
 passingPercentage: PASSING_PERCENTAGE,
 durationMinutes: 15
 });

@@ -186,7 +186,7 @@ Difficulty distribution must be exactly ${questionCount / 3} easy, ${questionCou
 Use a balanced mix of mcq, true_false, and fill_blank questions.
 For true_false, options must be ["True", "False"].
 For fill_blank, options must be [] and correctAnswer must be a short expected answer.
-Each question needs a concise topic and a useful explanation.
+Each question needs a concise topic and a one-sentence explanation of no more than 15 words.
 
 Return only JSON with this shape:
 {
