@@ -43,12 +43,15 @@ const views = {
 generator: document.getElementById("generatorView"),
 welcome: document.getElementById("welcomeView"),
 loading: document.getElementById("loadingView"),
+fullscreenPrompt: document.getElementById("fullscreenPromptView"),
+aborted: document.getElementById("abortedView"),
 quiz: document.getElementById("quizView"),
 result: document.getElementById("resultView")
 };
 const elements = {
 videoUrl: document.getElementById("videoUrl"),
 generateBtn: document.getElementById("generateBtn"),
+enterFullscreenBtn: document.getElementById("enterFullscreenBtn"),
 generatorMessage: document.getElementById("generatorMessage"),
 loadingMessage: document.getElementById("loadingMessage"),
 historyList: document.getElementById("historyList"),
@@ -211,7 +214,7 @@ currentIndex: 0,
 endsAt: Date.now() + QUIZ_DURATION_MS
 };
 saveState();
-startQuiz();
+showFullscreenPrompt();
 } catch (error) {
 showView(payload.playlistId ? "welcome" : "generator");
 messageElement.textContent = error.message;
@@ -236,12 +239,40 @@ const videoUrl = elements.videoUrl.value.trim();
 return generateQuizFromUrl(videoUrl);
 }
 
+function showFullscreenPrompt() {
+showView("fullscreenPrompt");
+}
+
 function startQuiz() {
 showView("quiz");
 elements.videoTitle.textContent = state.videoTitle;
 elements.videoLink.href = state.videoUrl;
+
+if (!document.fullscreenElement) {
+document.documentElement.requestFullscreen().catch((err) => {
+console.warn("Fullscreen request failed, but starting quiz anyway for fallback:", err);
+});
+}
+
+document.addEventListener("fullscreenchange", handleFullscreenChange);
+
 renderQuestion();
 startTimer();
+}
+
+function handleFullscreenChange() {
+if (!document.fullscreenElement && state && state.status === "active") {
+abortQuiz();
+}
+}
+
+function abortQuiz() {
+if (!state || state.status !== "active") return;
+clearInterval(timerInterval);
+state.status = "aborted";
+saveState();
+showView("aborted");
+saveQuizAttempt({ correct: 0, total: state.questions ? state.questions.length : 1, percentage: 0 }, "aborted");
 }
 
 function renderQuestion() {
@@ -387,8 +418,8 @@ percentage: result.percentage
 localStorage.setItem(QUIZ_HISTORY_KEY, JSON.stringify(history.slice(0, 20)));
 }
 
-async function saveQuizAttempt(result) {
-if(state.quizAttemptId) {
+async function saveQuizAttempt(result, status = "completed") {
+if(state.quizAttemptId && status !== "aborted") {
 return state.quizAttemptId;
 }
 
@@ -407,13 +438,16 @@ playlistId: state.playlistId || "",
 score: result.correct,
 total: result.total,
 percentage: result.percentage,
+status,
 analysis: state.analysis || null
 })
 });
 
+if (status !== "aborted") {
 state.quizAttemptId = data.attempt.id;
 saveState();
-return state.quizAttemptId;
+}
+return data.attempt.id;
 } catch (error) {
 console.warn("Quiz attempt was not saved to MongoDB:", error.message);
 return null;
@@ -740,6 +774,16 @@ const hidden = elements.reviewList.classList.toggle("hidden");
 elements.toggleReviewBtn.textContent = hidden ? "Show Review" : "Hide Review";
 });
 elements.newQuizBtn.addEventListener("click", resetQuiz);
+elements.enterFullscreenBtn.addEventListener("click", () => {
+document.documentElement.requestFullscreen()
+.then(() => {
+startQuiz();
+})
+.catch((err) => {
+console.error("Fullscreen request failed:", err);
+alert("Fullscreen is required to start the quiz. Please try again.");
+});
+});
 document.getElementById("backToPlaylistBtn").addEventListener("click", () => {
 const playlistId = playlistQuiz?.playlist?.playlistId || new URLSearchParams(window.location.search).get("playlistId");
 window.location.href = `playlist-details.html?playlistId=${encodeURIComponent(playlistId || "")}`;
@@ -782,8 +826,10 @@ showView("generator");
 checkQuizStatus();
 } else if(state.status === "complete") {
 renderResults();
+} else if(state.status === "aborted") {
+showView("aborted");
 } else {
-startQuiz();
+showFullscreenPrompt();
 }
 }
 

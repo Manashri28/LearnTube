@@ -82,6 +82,10 @@ passed: {
 type: Boolean,
 default: false
 },
+status: {
+type: String,
+default: 'completed'
+},
 analysis: mongoose.Schema.Types.Mixed,
 createdAt: Date
 }
