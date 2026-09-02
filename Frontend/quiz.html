@@ -101,6 +101,34 @@
         <p>Gemini is turning this lesson into a balanced assessment.</p>
     </section>
 
+    <section id="fullscreenPromptView" class="hidden">
+        <section class="quiz-welcome glass-card">
+            <span class="eyebrow"><i class="fa-solid fa-expand"></i>Fullscreen Required</span>
+            <h2>Assessment Instructions</h2>
+            <p>To begin the assessment, you must enter fullscreen mode. If you leave fullscreen after the assessment begins, your assessment will be automatically aborted.</p>
+            <div class="welcome-actions">
+                <button id="enterFullscreenBtn" class="primary-btn">
+                    <i class="fa-solid fa-expand"></i>
+                    Enter Fullscreen & Start Quiz
+                </button>
+            </div>
+        </section>
+    </section>
+
+    <section id="abortedView" class="hidden">
+        <section class="quiz-welcome glass-card">
+            <span class="eyebrow"><i class="fa-solid fa-triangle-exclamation"></i>Assessment Aborted</span>
+            <h2>Your assessment was automatically aborted because fullscreen mode was exited.</h2>
+            <p>Leaving fullscreen during an active assessment is not permitted.</p>
+            <div class="welcome-actions">
+                <button id="abortedBackBtn" class="secondary-btn" onclick="window.location.href='dashboard.html'">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </section>
+    </section>
+
     <section id="quizView" class="hidden">
         <section class="quiz-header glass-card">
             <div class="quiz-title">

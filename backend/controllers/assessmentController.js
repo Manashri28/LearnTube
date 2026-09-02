@@ -248,7 +248,8 @@ videoUrl,
 playlistId,
 score,
 total,
-analysis
+analysis,
+status
 } = req.body;
 
 const numericScore = Number(score);
@@ -261,7 +262,7 @@ message: "Video title, score, and a valid total are required."
 }
 
 const finalPercentage = normalizePercentage(numericScore, numericTotal);
-const passed = finalPercentage >= PASSING_PERCENTAGE;
+const passed = status === "aborted" ? false : finalPercentage >= PASSING_PERCENTAGE;
 
 const user = await User.findById(
 getUserId(req)
@@ -288,6 +289,7 @@ score: numericScore,
 total: numericTotal,
 percentage: finalPercentage,
 passed,
+status: status || "completed",
 analysis: analysis || null,
 createdAt: new Date()
 };
