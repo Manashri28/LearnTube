@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000";
+const API_URL = "https://learntube-ei40.onrender.com";
 const QUIZ_STATE_KEY = "learntubeQuizState";
 const QUIZ_HISTORY_KEY = "learntubeQuizHistory";
 const QUIZ_DURATION_MS = 15 * 60 * 1000;

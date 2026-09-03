@@ -1,5 +1,5 @@
 const API_URL =
-"http://localhost:5000";
+"https://learntube-ei40.onrender.com";
 
 const portfolioStatsContainer =
 document.getElementById(

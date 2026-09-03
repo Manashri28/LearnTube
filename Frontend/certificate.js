@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000";
+const API_URL = "https://learntube-ei40.onrender.com";
 const token = localStorage.getItem("token");
 const certificateDocument = document.getElementById("certificateDocument");
 const certificateStatus = document.getElementById("certificateStatus");

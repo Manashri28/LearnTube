@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000";
+const API_URL = "https://learntube-ei40.onrender.com";
 const reviewsSection = document.getElementById("reviewsSection");
 const reviewsContainer = document.getElementById("reviewsContainer");
 
