@@ -1,6 +1,6 @@
 console.log("✅ NEW dashboard.js loaded");
 
-const API_URL = "http://localhost:5000";
+const API_URL = "https://learntube-ei40.onrender.com";
 const statIcons = [
 "fa-list-check",
 "fa-circle-check",
