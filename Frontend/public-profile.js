@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:5000";
+const API_URL = "https://learntube-ei40.onrender.com";
 
 
 const profileContent = document.getElementById("profileContent");
