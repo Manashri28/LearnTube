@@ -44,34 +44,96 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         </a>
     </nav>
 
+
+    <!-- Add Content -->
+    <section class="add-content card-panel">
+
+        <div>
+            <span class="eyebrow">
+                <i class="fa-solid fa-plus"></i>
+                Add Content
+            </span>
+
+            <h2>Build Your Learning Library</h2>
+
+            <p>
+                Paste one YouTube video or playlist URL.
+                LearnTube will fetch the title, channel, and thumbnail automatically.
+            </p>
+        </div>
+
+        <form class="content-form" id="contentForm">
+
+            <div class="input-wrap">
+                <i class="fa-solid fa-link"></i>
+
+                <input
+                    id="playlistInput"
+                    type="url"
+                    placeholder="Paste YouTube Video or Playlist URL"
+                >
+            </div>
+
+            <button class="btn" type="submit">
+                <i class="fa-solid fa-cloud-arrow-down"></i>
+                Add To Library
+            </button>
+
+        </form>
+
+        <p class="form-message" id="formMessage" role="status"></p>
+
+    </section>
+
+
+    <!-- Continue Learning -->
     <section class="hero-section card-panel" id="heroSection">
+
         <div class="hero-copy">
-            <span class="eyebrow"><i class="fa-brands fa-youtube"></i>Continue Learning</span>
-            <h1 id="heroTitle">Start Your Learning Journey</h1>
-            <p id="heroSubtitle">Paste a YouTube video or playlist URL to begin.</p>
+
+            <span class="eyebrow">
+                <i class="fa-brands fa-youtube"></i>
+                Continue Learning
+            </span>
+
+            <h1 id="heroTitle">
+                Start Your Learning Journey
+            </h1>
+
+            <p id="heroSubtitle">
+                Paste a YouTube video or playlist URL to begin.
+            </p>
 
             <div class="hero-progress">
+
                 <div class="progress-row">
                     <span>Progress</span>
                     <strong id="heroProgressText">0%</strong>
                 </div>
+
                 <div class="progress-box">
                     <div class="progress-fill" id="heroProgressFill"></div>
                 </div>
+
             </div>
 
             <button class="btn" id="resumeBtn">
                 <i class="fa-solid fa-circle-play"></i>
                 Resume
             </button>
+
         </div>
 
         <div class="hero-thumbnail" id="heroThumbnail">
             <i class="fa-solid fa-play"></i>
         </div>
+
     </section>
 
+
+    <!-- Learning Statistics -->
     <section class="analytics-grid" aria-label="Learning progress analytics">
+
         <article class="metric-card">
             <i class="fa-solid fa-layer-group"></i>
             <h2 data-counter="videosAdded">0</h2>
@@ -95,54 +157,72 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
             <h2 data-counter="learningProgress">0%</h2>
             <p>Learning Progress</p>
         </article>
+
     </section>
 
-    <section class="add-content card-panel">
-        <div>
-            <span class="eyebrow"><i class="fa-solid fa-plus"></i>Add Content</span>
-            <h2>Build Your Learning Library</h2>
-            <p>Paste one YouTube video or playlist URL. LearnTube will fetch the title, channel, and thumbnail automatically.</p>
-        </div>
 
-        <form class="content-form" id="contentForm">
-            <div class="input-wrap">
-                <i class="fa-solid fa-link"></i>
-                <input id="playlistInput" type="url" placeholder="Paste YouTube Video or Playlist URL">
-            </div>
-
-            <button class="btn" type="submit">
-                <i class="fa-solid fa-cloud-arrow-down"></i>
-                Add To Library
-            </button>
-        </form>
-
-        <p class="form-message" id="formMessage" role="status"></p>
-    </section>
-
+    <!-- Learning Library -->
     <section class="library-toolbar">
+
         <div>
-            <span class="eyebrow"><i class="fa-solid fa-graduation-cap"></i>Learning Library</span>
+            <span class="eyebrow">
+                <i class="fa-solid fa-graduation-cap"></i>
+                Learning Library
+            </span>
+
             <h2>Your Videos & Playlists</h2>
         </div>
 
-        <div class="filter-tabs" id="filterTabs" aria-label="Filter learning library">
-            <button class="filter-tab active" data-filter="all">All</button>
-            <button class="filter-tab" data-filter="in-progress">In Progress</button>
-            <button class="filter-tab" data-filter="completed">Completed</button>
-            <button class="filter-tab" data-filter="quiz-unlocked">Quiz Unlocked</button>
+        <div
+            class="filter-tabs"
+            id="filterTabs"
+            aria-label="Filter learning library"
+        >
+            <button class="filter-tab active" data-filter="all">
+                All
+            </button>
+
+            <button class="filter-tab" data-filter="in-progress">
+                In Progress
+            </button>
+
+            <button class="filter-tab" data-filter="completed">
+                Completed
+            </button>
+
+            <button class="filter-tab" data-filter="quiz-unlocked">
+                Quiz Unlocked
+            </button>
         </div>
+
     </section>
 
+
+    <!-- Empty State -->
     <section class="empty-state card-panel" id="emptyState">
+
         <i class="fa-solid fa-circle-play"></i>
+
         <h2>Start Your Learning Journey</h2>
-        <p>Paste a YouTube video or playlist URL to begin.</p>
+
+        <p>
+            Paste a YouTube video or playlist URL to begin.
+        </p>
+
     </section>
 
-    <section class="library-grid" id="libraryGrid" aria-live="polite"></section>
+
+    <!-- Library Grid -->
+    <section
+        class="library-grid"
+        id="libraryGrid"
+        aria-live="polite"
+    ></section>
 
 </main>
 
+
+<!-- Delete Playlist Modal -->
 <div id="deleteModal" class="modal-overlay hidden">
 
     <div class="delete-modal">
@@ -155,11 +235,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 
         <div class="modal-buttons">
 
-            <button id="cancelDeleteBtn" class="btn secondary">
+            <button
+                id="cancelDeleteBtn"
+                class="btn secondary"
+            >
                 Cancel
             </button>
 
-            <button id="confirmDeleteBtn" class="btn danger">
+            <button
+                id="confirmDeleteBtn"
+                class="btn danger"
+            >
                 Delete
             </button>
 
@@ -168,6 +254,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     </div>
 
 </div>
+
 
 <script src="playlist.js"></script>
 
