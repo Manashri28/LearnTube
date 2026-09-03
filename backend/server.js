@@ -27,11 +27,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Health route to confirm the backend is running.
+// Serve the LearnTube landing page.
 app.get("/", (req, res) => {
-res.json({
-message: "LearnTube backend is running"
-});
+res.sendFile(path.join(__dirname, "..", "Frontend", "index.html"));
 });
 
 const youtubeRoutes =
