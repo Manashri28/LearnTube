@@ -29,8 +29,14 @@ trim: true,
 lowercase: true
 },
 password: {
-type: String,
-required: true
+    type: String,
+    required: false
+},
+
+googleId: {
+    type: String,
+    unique: true,
+    sparse: true
 },
 learningHistory: [
 {
